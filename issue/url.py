@@ -1,7 +1,8 @@
-from django.urls import path
+from django.urls import path,include
 
 from . import views
 
 urlpatterns = [
-    path('', views.HomeView.as_view(), name='home'),#views.pyから「HomeView」クラスを読み込み
+    path('', views.IssuesListView.as_view(), name='list'),
+    path('detail/', views.IssuesDetailView.as_view(), name='detail'),
 ]
