@@ -6,7 +6,7 @@ from django.db import models
 class Issues(models.Model):
     title = models.CharField(max_length=50)
     contents = models.TextField(blank=True,null=True)
-    record = models.TextField(blank=True,null=True)
+    progress_details = models.TextField(blank=True,null=True)
     date_of_update = models.DateField(auto_now=True)
     deadline = models.DateField(blank=True,null=True)
     type = models.IntegerField(choices=[(0,"不具合"),(1,"タスク"),(2,"要望"),(3,"その他")])

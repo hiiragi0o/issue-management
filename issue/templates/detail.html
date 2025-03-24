@@ -3,5 +3,20 @@
 {% block content %}
 <h1>
     detail
+
+    {% for record in object_list %} 
+    {{ record.title }} 
+    {{ record.contents }}
+    {{ record.progress_details }}
+    {{ record.date_of_update }}
+    {{ record.deadline }}
+    {{ record.get_type_display }}
+    {{ record.get_person_display }}
+    {{ record.get_progress_display }}
+    {{ record.budget  }}
+    {% endfor %}
+
+
+
 </h1>
 {% endblock %}
