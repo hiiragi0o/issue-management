@@ -14,3 +14,7 @@ class Issues(models.Model):
     progress = models.IntegerField(choices=[(0,"完了"),(1,"進行中"),(2,"未対応"),(3,"保留"),(4,"対応不要")])
     budget = models.IntegerField(blank=True,null=True)
 
+# self がRecord というclassから作成された object 
+# そのtitleを返す
+    def __str__(self):
+        return self.title

@@ -1,22 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>
-    detail
-
-    {% for record in object_list %} 
-    {{ record.title }} 
-    {{ record.contents }}
-    {{ record.progress_details }}
-    {{ record.date_of_update }}
-    {{ record.deadline }}
-    {{ record.get_type_display }}
-    {{ record.get_person_display }}
-    {{ record.get_progress_display }}
-    {{ record.budget  }}
-    {% endfor %}
-
-
-
-</h1>
+    <h1>
+        detail
+    </h1>
+    <div>
+    {{ object.title }}<br>
+    {{ object.contents }}<br>
+    {{ object.progress_details }}<br>
+    {{ object.date_of_update }}<br>
+    {{ object.deadline }}<br>
+    {{ object.get_type_display }}<br>
+    {{ object.get_person_display }}<br>
+    {{ object.get_progress_display }}<br>
+    {{ object.budget }}<br>
+    <a href="{% url 'list' %}">一覧に戻る</a>
+    </div>
 {% endblock %}

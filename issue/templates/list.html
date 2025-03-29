@@ -4,4 +4,14 @@
 <h1>
     list
 </h1>
+<div>
+{% for issues in object_list %} 
+{{ issues.title }}<br>
+{{ issues.date_of_update }}<br>
+{{ issues.deadline }}<br>
+{{ issues.get_type_display }}<br>
+{{ issues.get_person_display }}<br>
+{{ issues.get_progress_display }}<br>
+{% endfor %}
+</div>
 {% endblock %}
