@@ -47,10 +47,10 @@
           </div>
           <div>
             {% if user.is_authenticated %}
-            <a class="btn btn-outline-light btn-custom" href="{% url 'login' %}" role="button">ログアウト</a>
+            <a class="btn btn-outline-light btn-custom" href="{% url 'logout' %}" role="button">ログアウト</a>
             {% else %}
             <a class="btn btn-outline-light btn-custom" href="{% url 'login' %}" role="button">ログイン</a>
-            <a class="btn btn-outline-light btn-custom" href="{% url 'login' %}" role="button">サインアップ</a>
+            <a class="btn btn-outline-light btn-custom" href="{% url 'signup' %}" role="button">サインアップ</a>
             {% endif %}
           </div>
         </div>
