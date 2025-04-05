@@ -1,19 +1,51 @@
 {% extends 'base.html' %}
+{% block title %}issue-management｜詳細画面{% endblock title %}
 
 {% block content %}
-    <h1>
-        detail
-    </h1>
-    <div>
-    {{ object.title }}<br>
-    {{ object.contents }}<br>
-    {{ object.progress_details }}<br>
-    {{ object.date_of_update }}<br>
-    {{ object.deadline }}<br>
-    {{ object.get_type_display }}<br>
-    {{ object.get_person_display }}<br>
-    {{ object.get_progress_display }}<br>
-    {{ object.budget }}<br>
-    <a href="{% url 'list' %}">一覧に戻る</a>
+
+<div class="mt-3 d-grid gap-2 d-md-flex justify-content-md-end">
+    <a class="btn btn-outline-primary btn-custom" href="{% url 'update' issues.id %}" role="button">編集</a>
+    <a class="btn btn-outline-success btn-custom" href="#" role="button">共有</a>
+    <a class="btn btn-outline-secondary btn-custom" href="{% url 'list' %}" role="button">戻る</a>
+    <a class="btn btn-outline-danger btn-custom" href="{% url 'delete' issues.id %}" role="button">削除</a>
+
+
+
+
+    <!-- <button class="btn btn-outline-success btn-custom">共有</button>
+    <button class="btn btn-outline-secondary btn-custom">戻る</button>
+    <button class="btn btn-outline-danger btn-custom">削除</button> -->
+</div>
+
+<div class="mt-3">
+    <h5>No. {{ object.id }}　{{ object.title }}</h5>
+    <p>期限日：&nbsp; <strong> {{ object.deadline }} </strong> 　
+        状態：&nbsp; <strong> {{ object.get_progress_display }} </strong></p>
+    <p>{{ object.contents }}</p>
+</div>
+
+<div class="mt-3">
+    <p>更新日：&nbsp; <strong> {{ object.date_of_update }} </strong>
+        　区分：&nbsp; <strong>{{ object.get_type_display }}</strong>
+        　予算：&nbsp; <strong>{{ object.budget }}円</strong>
+        　担当者：&nbsp; <strong>{{ object.get_person_display }}</strong> </p>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h6 class="card-subtitle mb-2 text-body-secondary">20247/1 入力日を降順に入れたい</h6>
+        <p>{{ object.comment }}</p>
     </div>
+</div>
+
+<!-- 入力欄 -->
+<div class="mt-3">
+    <div class="form-floating">
+        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
+            style="height: 100px"></textarea>
+        <label for="floatingTextarea2">クリックしてコメントを入力</label>
+    </div>
+</div>
+
+
 {% endblock %}

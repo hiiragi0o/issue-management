@@ -1,16 +1,27 @@
 {% extends 'base.html' %}
+{% block title %}issue-management｜登録画面{% endblock title %}
 
 {% block content %}
-<h1>
-    create
-</h1>
-    <div class="p-4">
-        <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">追加する</button>
-        </form>
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>issue-management｜新規登録</title>
+    </head>
+    <body>
+        <h1>
+            create
+        </h1>
+        <div class="p-4">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">課題を登録する</button>
+            </form>
+        </div>
+    </body>
+</html>
+
 
 {% endblock %}
-

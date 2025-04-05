@@ -1,3 +1,17 @@
 .text-red {
     color: red;
   }
+
+/* テキストエリア固定　効かない */
+  textarea{
+    resize: horizontal;
+    width:400px;
+    height:200px;
+  }
+  
+  label,
+  textarea {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+  }
+  

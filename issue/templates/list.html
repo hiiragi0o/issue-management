@@ -1,17 +1,40 @@
 {% extends 'base.html' %}
+{% block title %}issue-management｜Home{% endblock title %}
+{% block h1 %}課題リスト{% endblock h1 %}
 
 {% block content %}
-<h1>
-    list
-</h1>
-<div>
-{% for issues in object_list %} 
-{{ issues.title }}<br>
-{{ issues.date_of_update }}<br>
-{{ issues.deadline }}<br>
-{{ issues.get_type_display }}<br>
-{{ issues.get_person_display }}<br>
-{{ issues.get_progress_display }}<br>
-{% endfor %}
+
+<div class="table-responsive">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">件名</th>
+        <th scope="col">更新日​</th>
+        <th scope="col">期限日</th>
+        <th scope="col">区分</th>
+        <th scope="col">担当者</th>
+        <th scope="col">状態</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for issues in object_list %}
+      <a href="{% url 'detail' issues.id %}">
+
+        <tr>
+          <th scope="row">{{ issues.id }}</th>
+          <td>{{ issues.title }}</td>
+          <td>{{ issues.date_of_update }}</td>
+          <td>{{ issues.deadline }}</td>
+          <td>{{ issues.get_type_display }}</td>
+          <td>{{ issues.get_person_display }}</td>
+          <td>{{ issues.get_progress_display }}</td>
+
+        </tr>
+      </a>
+
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 {% endblock %}
