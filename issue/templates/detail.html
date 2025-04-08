@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}issue-management｜詳細画面{% endblock title %}
 
+
 {% block content %}
 
 <div class="mt-3 d-grid gap-2 d-md-flex justify-content-md-end">
@@ -8,17 +9,11 @@
     <a class="btn btn-outline-success btn-custom" href="#" role="button">共有</a>
     <a class="btn btn-outline-secondary btn-custom" href="{% url 'list' %}" role="button">戻る</a>
     <a class="btn btn-outline-danger btn-custom" href="{% url 'delete' issues.id %}" role="button">削除</a>
-
-
-
-
-    <!-- <button class="btn btn-outline-success btn-custom">共有</button>
-    <button class="btn btn-outline-secondary btn-custom">戻る</button>
-    <button class="btn btn-outline-danger btn-custom">削除</button> -->
 </div>
 
+{% block h1 %}課題詳細{% endblock h1 %}
 <div class="mt-3">
-    <h5>No. {{ object.id }}　{{ object.title }}</h5>
+    <h2 class="h4">No. {{ object.id }}　{{ object.title }}</h2>
     <p>期限日：&nbsp; <strong> {{ object.deadline }} </strong> 　
         状態：&nbsp; <strong> {{ object.get_progress_display }} </strong></p>
     <p>{{ object.contents }}</p>
@@ -41,8 +36,7 @@
 <!-- 入力欄 -->
 <div class="mt-3">
     <div class="form-floating">
-        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
-            style="height: 100px"></textarea>
+        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
         <label for="floatingTextarea2">クリックしてコメントを入力</label>
     </div>
 </div>

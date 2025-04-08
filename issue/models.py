@@ -25,7 +25,7 @@ class ProgressComment(models.Model):
     create_date = models.DateField(auto_now_add=True)
     update_date = models.DateField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
-    issues = models.ForeignKey(Issues, on_delete=models.PROTECT)
+    issues = models.ForeignKey(Issues, on_delete=models.CASCADE)
 
 
     

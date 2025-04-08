@@ -156,4 +156,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # 追加
 LOGIN_REDIRECT_URL = "list"
 LOGOUT_REDIRECT_URL = "login"
-LOGIN_URL = "/login/"
+LOGIN_URL = "login"

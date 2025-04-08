@@ -11,6 +11,6 @@ class SignUpForm(UserCreationForm):
         )
 
 # ログインフォームを追加
-class LoginFrom(AuthenticationForm):
+class LoginForm(AuthenticationForm):
     class Meta:
         model = User

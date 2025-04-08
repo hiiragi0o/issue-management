@@ -4,8 +4,8 @@ from .models import Issues
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.contrib.auth import login, authenticate
-from .forms import SignUpForm, LoginFrom # ログインフォームをimport
 from django.contrib.auth.views import LoginView as BaseLoginView,  LogoutView as BaseLogoutView
+from .forms import SignUpForm,LoginForm  # ログインフォームをimport
 
     
 class IssuesListView(LoginRequiredMixin,ListView):
@@ -56,7 +56,7 @@ class SignupView(CreateView):
 
 # ログインビューを作成
 class LoginView(BaseLoginView):
-    form_class = LoginFrom
+    form_class = LoginForm
     template_name = "login.html"
 
 # ログアウトビューを作成
