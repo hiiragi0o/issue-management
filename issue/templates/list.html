@@ -15,23 +15,22 @@
         <th scope="col">区分</th>
         <th scope="col">担当者</th>
         <th scope="col">状態</th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
       {% for issues in object_list %}
-      <a href="{% url 'detail' issues.id %}">
+      <tr>
+        <th scope="row">{{ issues.id }}</th>
+        <td>{{ issues.title }}</td>
+        <td>{{ issues.date_of_update }}</td>
+        <td>{{ issues.deadline }}</td>
+        <td>{{ issues.get_type_display }}</td>
+        <td>{{ issues.get_person_display }}</td>
+        <td>{{ issues.get_progress_display }}</td>
+        <td><a href="{% url 'detail' issues.id %}" class="btn btn-secondary">詳細</a></td>
 
-        <tr>
-          <th scope="row">{{ issues.id }}</th>
-          <td>{{ issues.title }}</td>
-          <td>{{ issues.date_of_update }}</td>
-          <td>{{ issues.deadline }}</td>
-          <td>{{ issues.get_type_display }}</td>
-          <td>{{ issues.get_person_display }}</td>
-          <td>{{ issues.get_progress_display }}</td>
-
-        </tr>
-      </a>
+      </tr>
 
       {% endfor %}
     </tbody>

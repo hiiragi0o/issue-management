@@ -20,12 +20,14 @@ class Issues(models.Model):
     def __str__(self):
         return self.title
     
+# 記事に紐づくコメント
 class ProgressComment(models.Model):
     comment = models.TextField() # 必須入力
     create_date = models.DateField(auto_now_add=True)
     update_date = models.DateField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT, limit_choices_to={"is_superuser":False})
-    issues = models.ForeignKey(Issues, on_delete=models.CASCADE)
-
-
+    target = models.ForeignKey(Issues, on_delete=models.CASCADE)# 対象課題
+    
+    def __str__(self):
+        return self.comment
     

@@ -9,14 +9,16 @@
         {% csrf_token %}
         {{ form.non_field_errors }}
         {{ field.errors }}
-        <label>
+        <label for="name">
             ユーザー名
         </label>
-        <input type="text" class="form-control" name="username">
-        <label>
+        <input id="name" type="text" class="form-control" name="username">
+
+        <label for="pass">
             パスワード
         </label>
-        <input type="password" class="form-control" name="password">
+        <input id="pass" type="password" class="form-control" name="password">
+
         <button type="submit" class="btn btn-danger mt-4">ログインする</button>
     </form>
 </div>
