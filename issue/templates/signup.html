@@ -1,10 +1,51 @@
 {% extends 'base.html' %}
+{% block title %}サインアップ｜issue-management{% endblock title %}
 
-{% block title %}
-<div class="h1">Create account</div>
-{% endblock %}
 
 {% block content %}
+{% block h1 %}サインアップ{% endblock h1 %}
+
+<div class="p-4 m-4 text-danger-emphasis bg-light-subtle border border-danger-subtle rounded-3">
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {{ field.errors }}
+
+        <!-- BaseUserCreationForm　で決まっているので、
+         name は以下の通りに渡すこと。（emailを除く） -->
+
+        <label for="email">
+            メールアドレス
+        </label>
+        <input id="email" type="email" class="form-control mb-3" name="email">
+
+        <label for="name">
+            ユーザー名
+        </label>
+        <input id="name" type="text" class="form-control mb-3" name="username">
+
+        <label for="pass">
+            パスワード
+        </label>
+        <input id="pass" type="password" class="form-control mb-3" name="password1">
+
+        <label for="pass2">
+            パスワード（確認用）
+        </label>
+        <input id="pass2" type="password" class="form-control" name="password2">
+
+
+        <div>
+            <button type="submit" class="btn btn-danger mt-4">アカウント作成</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
+
+
+<!-- うまく行った装飾なし
 <div>
     <form method="POST">
         {% csrf_token %}
@@ -20,5 +61,61 @@
             <a href="{% url 'list' %}" class="btn btn-secondary">Back</a>
         </div>
     </form>
-</div>
-{% endblock %}
+</div> -->
+
+
+
+
+<!-- login ...
+<form method="post" class="p-4 m-4 text-danger-emphasis bg-light-subtle border border-danger-subtle rounded-3 form-group">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {{ field.errors }}
+    <label for="name">
+        ユーザー名
+    </label>
+    <input id="name" type="text" class="form-control" name="username">
+
+    <label for="pass">
+        パスワード
+    </label>
+    <input id="pass" type="password" class="form-control" name="password">
+
+    <button type="submit" class="btn btn-danger mt-4">ログインする</button>
+</form> -->
+
+
+
+<!-- 試行錯誤
+<div>
+    <form method="POST" class="p-4 m-4 text-danger-emphasis bg-light-subtle border border-danger-subtle rounded-3 form-group">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {{ field.errors }}
+
+        <label for="email">
+            メールアドレス
+        </label>
+        <input id="email" type="email" class="form-control" name="email">
+
+        <label for="name">
+            ユーザー名
+        </label>
+        <input id="name" type="text" class="form-control" name="username">
+
+        <label for="pass">
+            パスワード
+        </label>
+        <input id="pass" type="password" class="form-control" name="password1">
+
+        <label for="pass2">
+            パスワード（確認用）
+        </label>
+        <input id="pass2" type="password" class="form-control" name="password2">
+
+
+        <button type="submit" class="btn btn-danger mt-4">アカウントを作成</button>
+
+
+    </form>
+</div> -->

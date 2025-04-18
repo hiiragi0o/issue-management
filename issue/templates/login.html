@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}issue-management｜ログイン{% endblock %}
+{% block title %}ログイン｜issue-management{% endblock %}
 {% block content %}
 {% block h1 %}ユーザー名、パスワードを入力してログイン{% endblock h1 %}
 
@@ -12,14 +12,14 @@
         <label for="name">
             ユーザー名
         </label>
-        <input id="name" type="text" class="form-control" name="username">
+        <input id="name" type="text" class="form-control mb-3" name="username">
 
         <label for="pass">
             パスワード
         </label>
         <input id="pass" type="password" class="form-control" name="password">
 
-        <button type="submit" class="btn btn-danger mt-4">ログインする</button>
+        <button type="submit" class="btn btn-danger mt-4">ログイン</button>
     </form>
 </div>
 {% endblock %}

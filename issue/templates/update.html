@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
+{% block title %}編集｜issue-management{% endblock title %}
 
 {% block content %}
-<h1>
-    update
-</h1>
-    <div class="p-4">
-        <form method="post">
+{% block h1 %}編集して「更新」ボタンを押してください。{% endblock h1 %}
+
+<!-- あとでdetailviewが完成してからコピーしてtextareaにしたらできる？ -->
+<div class="p-4">
+    <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">変更する</button>
-        </form>
-    </div>
+        <button type="submit">更新</button>
+    </form>
+</div>
 
 {% endblock %}
-

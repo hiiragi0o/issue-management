@@ -1,8 +1,44 @@
 {% extends 'base.html' %}
-{% block title %}issue-management｜Home{% endblock title %}
-
+{% block title %}Home｜issue-management{% endblock title %}
 
 {% block content %}
+
+
+<!-- メッセージを表示 -->
+{% if messages %}
+{% for message in messages %}
+<div class="text-center alert alert-light">
+  {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+
+
+<!-- メッセージを表示　トースト -->
+<!-- {% if messages %}
+{% for message in messages %}
+<div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+  <div class="d-flex">
+    <div class="toast-body">
+      {{ message }}
+    </div>
+    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+
+<script type="text/javascript">
+  let toastElemList = [].slice.call(document.querySelectorAll('.toast'));
+  let toastList = toastElemList.map(function (toastElem) {
+    let toast = new bootstrap.Toast(toastElem, { autohide: false });
+    toast.show();
+    return toast;
+  });
+</script> -->
+
+
+
 {% block h1 %}課題リスト{% endblock h1 %}
 <div class="table-responsive">
   <table class="table table-hover">

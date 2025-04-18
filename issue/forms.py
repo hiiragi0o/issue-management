@@ -12,6 +12,16 @@ class SignUpForm(UserCreationForm):
             "username",
         )
 
+        # バリデーションできない
+        # def clean_email(self):
+        #     email = self.cleaned_data.get('email')
+        #     if not email == "":
+        #         raise forms.ValidationError('メールアドレスを入力してください。')
+        #     return email
+        
+        # class Meta:
+        #     fields = "__all__"
+
 # ログインフォームを追加
 class LoginForm(AuthenticationForm):
     class Meta:

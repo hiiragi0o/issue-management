@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}issue-management｜詳細画面{% endblock title %}
+{% block title %}詳細｜issue-management{% endblock title %}
 
 
 {% block content %}
@@ -11,7 +11,7 @@
     <a class="btn btn-outline-danger btn-custom" href="{% url 'delete' issues.id %}" role="button">削除</a>
 </div>
 
-{% block h1 %}課題詳細{% endblock h1 %}
+{% block h1 %}詳細{% endblock h1 %}
 <div class="mt-3">
     <h2 class="h4">No. {{ object.id }}　{{ object.title }}</h2>
     <p>期限日：&nbsp; <strong> {{ object.deadline }} </strong> 　
@@ -20,53 +20,58 @@
 </div>
 
 <div class="mt-3">
-    <p>更新日：&nbsp; <strong> {{ object.date_of_update }} </strong>
+    <p>更新日：&nbsp; <strong> {{ object.create_date }} </strong>
         　区分：&nbsp; <strong>{{ object.get_type_display }}</strong>
         　予算：&nbsp; <strong>{{ object.budget }}円</strong>
-        　担当者：&nbsp; <strong>{{ object.get_person_display }}</strong> </p>
+        　担当者：&nbsp; <strong>{{ object.person }}</strong> </p>
 </div>
 
-<!-- <div class="card">
-    <div class="card-body">
-        {% for comment in progresscomment_set.all %}
-        <div class="card-subtitle mb-2 text-body-secondary">
-            <p>{{ object.comment }}</p>
-        </div>
-        {% endfor %}
-    </div>
-</div> -->
 
 <div class="mt-3">
-    <p class="h6">＜進捗コメント＞</p>
-    {% for comment in issues.progresscomment_set.all %}
-    <p>{{ comment.comment }}</p>
-    {% endfor %}
-</div>
+    <p class="h6">コメント</p>
 
+    <nav class="navbar-expand-lg bg-body-tertiary">
+        <div class="container-md">
+            <a class="navbar-brand">
 
-<!-- コメント入力欄 -->
-<!-- <div class="mt-3">
-    <p class="h6">＜コメント投稿＞</p>
-    <div class="form-floating">
-        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-        <label for="floatingTextarea2">クリックしてコメントを入力</label>
-    </div>
-    <button type="submit" class="btn btn-danger mt-4">コメントを送信</button>
-</div> -->
+                {% for comment in issues.progresscomment_set.all %}
+                <p>{{ comment.create_date }}　{{ comment.user }}　<a href="#">編集</a></p>
+                <p>{{ comment.comment }}</p>
+                <hr>
+                {% endfor %}
 
-<!-- コメント入力欄 -->
-<div class="mt-3">
-    <p class="h6">＜コメント投稿＞</p>
-    <!-- コメント作成用のURLを渡す -->
-    <form action="{% url 'comment_create' issues.id %}" method="post">
-        {% csrf_token %}
-        <!-- {{ progresscomment_form }} -->
-        {{ form.as_p }}
-        <div>
-            <button type="submit" class="btn btn-danger mt-4">コメントを送信</button>
+            </a>
         </div>
-    </form>
+    </nav>
+
+
 </div>
 
 
+
+
+<div>
+    <nav class="fixed-bottom bg-body-tertiary">
+        <p>
+            <a class="btn" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                進捗をコメントする
+            </a>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <!-- コメント作成用のURLを渡す -->
+            <form action="{% url 'comment_create' issues.id %}" method="post" class="p-3 text-danger-emphasis bg-light-subtle border border-danger-subtle rounded-3 form-group">
+                {% csrf_token %}
+                <div>
+                    <label for="comment">本文</label>
+                    <textarea id="comment" class="form-control mb-3" name="comment"></textarea>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-danger mt-4">コメントを送信</button>
+                </div>
+            </form>
+
+        </div>
+
+    </nav>
+</div>
 {% endblock %}
