@@ -87,12 +87,12 @@ class CommentIndexView(ListView):
     queryset = ProgressComment.objects.order_by('-id')
 
 
-class SignupView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+class SignupView(SuccessMessageMixin, CreateView):
     """ ユーザー登録用ビュー """
     form_class = SignUpForm # 作成した登録用フォームを設定
     template_name = "signup.html" 
     success_url = reverse_lazy("list") # ユーザー作成後のリダイレクト先ページ
-    success_message = "アカウントが作成されました。"
+    success_message = "アカウントが作成されました！"
 
     # def signup_view(request):
     #     if request.method == "POST":
