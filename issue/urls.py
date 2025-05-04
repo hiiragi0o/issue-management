@@ -1,4 +1,4 @@
-from django.urls import path,include
+from django.urls import path
 
 from . import views
 
@@ -11,5 +11,7 @@ urlpatterns = [
     path('create/', views.IssuesCreateView.as_view(), name='create'),
     path('update/<int:pk>/', views.IssuesUpdateView.as_view(), name='update'),
     path('delete/<int:pk>/', views.IssuesDeleteView.as_view(), name='delete'),
-    path('comment/create/<int:pk>/', views.CommentCreateView.as_view(), name='comment_create')
+    path('comment/create/<int:pk>/', views.CommentCreateView.as_view(), name='comment_create'),
+    path('issue/<int:issue_id>/comment/update/<int:pk>/', views.CommentUpdateView.as_view(), name='comment_update'),
+
 ]

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'django_cleanup.apps.CleanupConfig',  # django-cleanup ファイル削除のため追加
 
     # アプリを追加
     'issue',
@@ -156,3 +157,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_REDIRECT_URL = "list"
 LOGOUT_REDIRECT_URL = "login"
 LOGIN_URL = "login"
+MEDIA_URL = '/media/' # 添付ファイル
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # 添付ファイル

@@ -33,4 +33,13 @@ class ProgressComment(models.Model):
     
     def __str__(self):
         return self.comment
-    
+
+
+# 記事に紐づくファイル（添付ファイル）
+class Document(models.Model):
+    upload = models.FileField(upload_to='file/%Y/%m/%d/')# 'media/documents/'ディレクトリに保存される
+    # pk = models.AutoField(pk=True)
+    # validators=[FileExtensionValidator(['csv,txt,pdf,doc,docx,xls,xlsx'])]#CSV指定
+    # uproad_at = models.DateTimeField(auto_now=True)
+    # target = models.ForeignKey(Issues, on_delete=models.CASCADE)# 対象課題
+

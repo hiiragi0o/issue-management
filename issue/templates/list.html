@@ -3,41 +3,74 @@
 
 {% block content %}
 
+<!-- 検索フォーム（作成中） -->
+<form class="mt-2" id="search-form" action="" method="GET">
+  <div>
+    <label class="label mr-4">年月</label>
+    {{ search_form.year }}
+    {{ search_form.month }}
+  </div>
+  <div class="mt-4">
+    {{ search_form.key_word }}
+    <button class="btn btn-info ml-4" type="submit">検索</button>
+  </div>
+  <div class="mt-2 inline">
+    {{ search_form.progress }}
+  </div>
+</form>
 
-<!-- メッセージを表示 -->
-{% if messages %}
-{% for message in messages %}
-<div class="text-center alert alert-light">
-  {{ message }}
+<!-- 一覧表示 -->
+<table class="table mt-3">
+  ...
+</table>
+
+<!-- ページネーション -->
+<div class="mt-5">
+  <h1>ページネーション！</h1>
 </div>
-{% endfor %}
-{% endif %}
 
 
-<!-- メッセージを表示　トースト -->
-<!-- {% if messages %}
-{% for message in messages %}
+<!-- メッセージを表示（作成中） -->
+<div class="container">
+  {% if messages %}
+  {% for message in messages %}
+    <!-- トーストの雛形をつくる -->
+    <div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-body">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="閉じる"></button>
+      </div>
+    </div>
+  {% endfor %}
+  {% endif %} 
+</div>
+
 <div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
   <div class="d-flex">
     <div class="toast-body">
-      {{ message }}
+      Hello, world! This is a toast message.
     </div>
     <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
   </div>
 </div>
-{% endfor %}
-{% endif %}
 
-<script type="text/javascript">
-  let toastElemList = [].slice.call(document.querySelectorAll('.toast'));
-  let toastList = toastElemList.map(function (toastElem) {
-    let toast = new bootstrap.Toast(toastElem, { autohide: false });
-    toast.show();
-    return toast;
+<!-- トースト（作成中）
+<script>
+  // toastクラスがついている要素にBootStrapのトーストを適用する
+  var toastElList = [].slice.call(document.querySelectorAll(".toast"));
+  var toastList = toastElList.map(function (toastEl) {
+      return new bootstrap.Toast(toastEl, {
+          // オプション
+          delay: 10000,
+      });
   });
-</script> -->
-
-
+  // ボタンをクリックしたときに実行される関数
+  function showToast() {
+      // トーストを表示する
+      toastList[0].show();
+  }
+</script>
+ -->
 
 {% block h1 %}課題リスト{% endblock h1 %}
 <div class="table-responsive">
@@ -56,18 +89,27 @@
     </thead>
     <tbody>
       {% for issues in object_list %}
-      <tr>
+      <tr class="align-middle">
         <th scope="row">{{ issues.id }}</th>
         <td>{{ issues.title }}</td>
         <td>{{ issues.date_of_update }}</td>
-        <td>{{ issues.deadline }}</td>
+        <td>
+          {% if now_date > issues.deadline %} 
+            <span style="color: #e60012">{{ issues.deadline }}
+              <!-- アイコン -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
+              </svg>
+            </span>
+          {% else %}{{ issues.deadline }}
+          {% endif %}
+        </td>
         <td>{{ issues.get_type_display }}</td>
         <td>{{ issues.get_person_display }}</td>
         <td>{{ issues.get_progress_display }}</td>
         <td><a href="{% url 'detail' issues.id %}" class="btn btn-secondary">詳細</a></td>
-
       </tr>
-
       {% endfor %}
     </tbody>
   </table>
