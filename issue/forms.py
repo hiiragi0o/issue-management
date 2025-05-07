@@ -8,6 +8,7 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = (
+            "username",
             "email",
         )
 
@@ -42,7 +43,7 @@ class CommentForm(forms.ModelForm):
         model = ProgressComment
         fields = ('comment',)
 
-# 検索フォーム（作成中）
+# 検索フォーム
 class SearchForm(forms.Form):
     # 年の選択肢を動的に作る 中身
     years = [(year, f'{year}年') for year in reversed(range(2023,2031))]

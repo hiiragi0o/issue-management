@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<!-- 検索フォーム（作成中） -->
+<!-- 検索フォーム -->
 <form class="mt-2" id="search-form" action="" method="GET">
   <div>
     <label class="label mr-4">年月</label>
@@ -19,58 +19,22 @@
   </div>
 </form>
 
-<!-- 一覧表示 -->
-<table class="table mt-3">
-  ...
-</table>
-
-<!-- ページネーション -->
-<div class="mt-5">
-  <h1>ページネーション！</h1>
-</div>
-
-
-<!-- メッセージを表示（作成中） -->
-<div class="container">
+<!-- メッセージを表示（トースト） -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
   {% if messages %}
   {% for message in messages %}
-    <!-- トーストの雛形をつくる -->
-    <div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="toast-body">
-        {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="閉じる"></button>
+  <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true">
+      <div class="toast-header">
+          <strong class="me-auto">通知</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
       </div>
-    </div>
+      <div class="toast-body">
+          {{ message }}
+      </div>
+  </div>
   {% endfor %}
   {% endif %} 
 </div>
-
-<div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
-  <div class="d-flex">
-    <div class="toast-body">
-      Hello, world! This is a toast message.
-    </div>
-    <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-  </div>
-</div>
-
-<!-- トースト（作成中）
-<script>
-  // toastクラスがついている要素にBootStrapのトーストを適用する
-  var toastElList = [].slice.call(document.querySelectorAll(".toast"));
-  var toastList = toastElList.map(function (toastEl) {
-      return new bootstrap.Toast(toastEl, {
-          // オプション
-          delay: 10000,
-      });
-  });
-  // ボタンをクリックしたときに実行される関数
-  function showToast() {
-      // トーストを表示する
-      toastList[0].show();
-  }
-</script>
- -->
 
 {% block h1 %}課題リスト{% endblock h1 %}
 <div class="table-responsive">
@@ -114,4 +78,60 @@
     </tbody>
   </table>
 </div>
+
+<!-- ページネーション -->
+<div class="mt-4">
+  <nav aria-label="Search results pages">
+    {% load issue %}
+    <ul class="pagination justify-content-center">
+      <!-- 最初へ／前へ -->
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?{%  url_replace request 'page' 1 %}">First</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?{%  url_replace request 'page' page_obj.previous_page_number %}">&laquo;</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <a class="page-link">First</a>
+        </li>
+        <li class="page-item disabled">
+          <a class="page-link">&laquo;</a>
+        </li>
+      {% endif %}
+
+      <!-- ページリンク -->
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <li class="page-item active" aria-current="page">
+            <a class="page-link">{{ num }}</a>
+          </li>
+        {% else %}
+        <li class="page-item">
+          <a class="page-link" href="?{%  url_replace request 'page' num %}">{{ num }}</a>
+        </li>
+        {% endif %}
+      {% endfor %}
+
+      <!-- 次へ／最後へ -->
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?{%  url_replace request 'page' page_obj.next_page_number %}">&raquo;</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?{%  url_replace request 'page' page_obj.paginator.num_pages %}">Last</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <a class="page-link">&raquo;</a>
+        </li>
+        <li class="page-item disabled">
+          <a class="page-link">Last</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+</div>
+
 {% endblock %}
