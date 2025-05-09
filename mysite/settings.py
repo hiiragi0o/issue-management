@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # 'django_cleanup.apps.CleanupConfig',  # django-cleanup ファイル削除のため追加
+    'django_cleanup.apps.CleanupConfig',  # django-cleanup ファイル削除のため追加
 
     # アプリを追加
     'issue',

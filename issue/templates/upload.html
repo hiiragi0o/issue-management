@@ -1,0 +1,25 @@
+<!-- 
+{% extends 'base.html' %}
+{% block title %}編集｜issue-management{% endblock title %}
+ -->
+
+{% block content %}
+{% block h1 %}ファイルをアップロード{% endblock h1 %}
+
+<div class=" m-2 p-2">
+    アップロード可能なファイルの拡張子<br>
+    [".txt", ".pdf", ".doc", .docx", ".xls", ".xlsx", ".webp", ".png", ".jpg", ".jpeg"]
+</div>
+
+<div class="mt-2">
+    <!-- 複数のファイルをアップロードするフォームの表示 -->
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group m-2 p-2">
+            {{ form.files.label }}<br>
+            {{ form.files }}
+        </div>
+        <button type="submit" class="mt-4">アップロードする</button>
+    </form>
+</div>
+{% endblock %}

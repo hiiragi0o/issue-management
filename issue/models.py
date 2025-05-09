@@ -26,7 +26,7 @@ class ProgressComment(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.PROTECT, limit_choices_to={"is_superuser":False})
-    target = models.ForeignKey(Issues, on_delete=models.CASCADE)# 対象課題
+    issues = models.ForeignKey(Issues, on_delete=models.CASCADE)# 対象課題
 
     class Meta:
         ordering = ['-create_date']  # デフォルトで'create_date'で降順に並び替え
@@ -35,11 +35,13 @@ class ProgressComment(models.Model):
         return self.comment
 
 
-# 記事に紐づくファイル（添付ファイル）
-class Document(models.Model):
-    upload = models.FileField(upload_to='file/%Y/%m/%d/')# 'media/documents/'ディレクトリに保存される
-    # pk = models.AutoField(pk=True)
-    # validators=[FileExtensionValidator(['csv,txt,pdf,doc,docx,xls,xlsx'])]#CSV指定
-    # uproad_at = models.DateTimeField(auto_now=True)
-    # target = models.ForeignKey(Issues, on_delete=models.CASCADE)# 対象課題
+# 記事に紐づく添付ファイル
+class UploadFile(models.Model):
+    title = models.CharField('ファイル名',max_length=50)
+    file = models.FileField(upload_to='uploads/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    issue = models.ForeignKey(Issues, on_delete=models.CASCADE, related_name='uploaded_files')# 対象課題
+
+    def __str__(self):
+        return self.title
 

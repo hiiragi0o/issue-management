@@ -8,13 +8,14 @@
 {% block content %}
 {% block h1 %}詳細{% endblock h1 %}
 
-<!-- このページのみ背景色を変更 -->
+<!-- 背景色を変更 -->
 <style>
     body {
     background-color:rgb(241, 241, 241);
     }
 </style>
 
+<!-- issue の内容 -->
 <div class="p-3 mt-3 bg-white rounded">
     <h2 class="h4">No. {{ object.id }}　{{ object.title }}</h2><hr>
         <div><small>
@@ -26,6 +27,7 @@
         <hr>
         <p class="mb-4">{{ object.contents }}</p>
 
+        <!-- ボタン -->
         <div class="mt-4 d-grid gap-2 d-md-flex justify-content-md-end">
             <small>更新日：&nbsp; <strong>{{ object.create_date }}　</strong></small>
             <a class="btn btn-outline-primary btn-custom" href="{% url 'update' issues.id %}" role="button">編集</a>
@@ -40,26 +42,41 @@
 <div class="card">
     <div class="card-header">
         添付ファイル
+        <button type="button" class="btn btn-link"><a href="{% url 'upload' issues.id %}">ファイルをアップロード</a></button>
     </div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-            アップロード表示されない
-            {% for file in file_obj %}
-                <p><a href="{{ file.upload.url }}">{{ file.upload.name }}</a></p>
-            {% endfor %}
-        </li>
-        <li class="list-group-item">A second item</li>
-        <li class="list-group-item">ファイルの数だけ行を表示したい。txt、pdf、word、Excel</li>
+        {% for file in object.uploaded_files.all %}
+            <li class="list-group-item">
+                <a href="{{ file.file.url }}">{{ file.file.name }}</a>
+            </li>
+        {% empty %}
+            <li class="list-group-item">
+                アップロードされたファイルはありません。
+            </li>
+        {% endfor %}
     </ul>
 </div>
 
+<!-- 進捗状況 実行すると以下のようにターミナルに出るがファイルがない。
+ファイルをアップロードしました！
+[<InMemoryUploadedFile: render-banner.png (image/png)>] -->
 
-{% comment %} <div class="mt-4 d-grid gap-2 d-md-flex justify-content-md-end">
-    <a class="btn btn-outline-primary btn-custom" href="{% url 'update' issues.id %}" role="button">編集</a>
-    <a class="btn btn-outline-success btn-custom" role="button" id="btn">クリップボードコピー</a>
-    <a class="btn btn-outline-secondary btn-custom" href="{% url 'list' %}" role="button">戻る</a>
-    <a class="btn btn-outline-danger btn-custom" href="{% url 'delete' issues.id %}" role="button">削除</a>
-</div> {% endcomment %}
+<!-- メッセージを表示（トースト） -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true">
+        <div class="toast-header">
+            <strong class="me-auto">通知</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            {{ message }}
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %} 
+</div>    
 
 <!-- クリップボードコピー内容 -->
 <div id="txt" style="display:none;">
@@ -157,7 +174,7 @@
     }
 </script> {% endcomment %}
 
-<!-- クリップボードコピー -->
+<!-- クリップボードコピーJS -->
 <script>
 // HTML要素取得
 const txt = document.getElementById('txt');
@@ -180,9 +197,10 @@ btn.addEventListener('click', () => {
 });
 </script>
 
+
 {% endblock %}
 
-<!-- このページのみフッター下側にマージン -->
+<!-- このページのみフッター下側にマージンを設ける -->
 {% block footer %}
     <footer class="mb-5">
     <a href="{% url 'list' %}">リストに戻る</a>

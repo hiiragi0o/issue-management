@@ -22,7 +22,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('', include('issue.urls')),# 行を追加
+    path('', include('issue.urls')),
 ]
 
 """ ---------------- 添付ファイル：デバッグがTrueだった場合 ----------------------"""

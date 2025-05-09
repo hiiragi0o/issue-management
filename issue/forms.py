@@ -1,3 +1,4 @@
+import os
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django import forms
@@ -91,3 +92,38 @@ class SearchForm(forms.Form):
         choices=PROGRESS_CHOICES,
         widget=forms.Select(attrs={'class': 'form'})
     )
+
+""" 添付ファイル アップロードフォーム """
+# 複数のファイルをアップロードするウィジェットクラス
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
+
+# 複数のファイルをアップロードするフィールドクラス
+class MultipleFileField(forms.FileField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput())
+        super().__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        single_file_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            result = [single_file_clean(d, initial) for d in data]
+        else:
+            result = single_file_clean(data, initial)
+        return result
+
+# 複数のファイルをアップロードするフォームクラス
+class FileFieldForm(forms.Form):
+    #  複数のファイルをアップロードするフィールドを作成
+    files = MultipleFileField(label="shift キーで複数のファイルを選択できます。")
+
+    # 拡張子を限定する
+    def clean_files(self):
+        files = self.cleaned_data["files"]
+        for file in files:
+            extension = os.path.splitext(file.name)[1]
+
+            # 拡張子
+            if not extension.lower() in [".txt", ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".webp", ".png", ".jpg", ".jpeg"]:
+                raise forms.ValidationError("アップロード可能なファイルを選択してください")
+        return files

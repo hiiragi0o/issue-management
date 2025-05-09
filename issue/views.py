@@ -1,15 +1,15 @@
 import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Document, Issues, ProgressComment
-from django.shortcuts import get_object_or_404, redirect, render
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, FormView
+from .models import Issues, ProgressComment, UploadFile
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.views import LoginView as BaseLoginView,  LogoutView as BaseLogoutView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages #　検索結果のメッセージのため追加
 from django.db.models import Q # get_queryset()用に追加
-from .forms import SearchForm, SignUpForm, LoginForm, CommentForm, IssuesForm
+from .forms import FileFieldForm, SearchForm, SignUpForm, LoginForm, CommentForm, IssuesForm
     
 class IssuesListView(LoginRequiredMixin, ListView):
     template_name = 'list.html' # htmlの命名
@@ -54,9 +54,10 @@ class IssuesListView(LoginRequiredMixin, ListView):
         context['now_date'] = datetime.date.today()  # 期限日の判断のため、今日を取得
         return context
 
-class IssuesDetailView(LoginRequiredMixin, DetailView):
+class IssuesDetailView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
     template_name = 'detail.html'
     model = Issues
+    success_message = "ファイルがアップロードされました！" # 添付ファイル
 
     # detail.htmlからコメント投稿
     def get_context_data(self, **kwargs):
@@ -70,7 +71,10 @@ class IssuesCreateView(LoginRequiredMixin, CreateView):
     template_name = 'create.html'
     model = Issues
     form_class =  IssuesForm
-    success_url = reverse_lazy("list") # フォーム入力完了後に遷移するURL
+    
+    # success_url = 更新成功したら該当のdetailページに遷移する
+    def get_success_url(self):
+        return reverse_lazy('detail', kwargs={'pk': self.object.pk})
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -80,7 +84,10 @@ class IssuesUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'update.html'
     model = Issues
     form_class =  IssuesForm
-    success_url = reverse_lazy("list")
+
+    # success_url = 更新成功したら該当のdetailページに遷移する
+    def get_success_url(self):
+        return reverse_lazy('detail', kwargs={'pk': self.object.pk})
 
 class IssuesDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'delete.html'
@@ -102,7 +109,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         issues = get_object_or_404(Issues, pk=issues_pk)
 
         progresscomment = form.save(commit=False)# データベース未保存のオブジェクトを返す
-        progresscomment.target = issues
+        progresscomment.issues = issues
         progresscomment.save()
 
         return redirect('detail', pk=issues_pk)
@@ -139,7 +146,6 @@ class SignupView(SuccessMessageMixin, CreateView):
     success_url = reverse_lazy("list") # ユーザー作成後のリダイレクト先ページ
     success_message = "アカウントが作成されました！"
 
-
     def form_valid(self, form):
         # ユーザー作成後にそのままログイン状態にする設定
         response = super().form_valid(form)
@@ -149,6 +155,33 @@ class SignupView(SuccessMessageMixin, CreateView):
         login(self.request, user)
         return response
 
+# 添付ファイル
+class FileFieldFormView(FormView):
+    form_class = FileFieldForm
+    template_name = "upload.html"
+
+    # success_url = 更新成功したら該当のdetailページに遷移する
+    def get_success_url(self):
+        return reverse_lazy('detail', kwargs={'pk': self.issue.pk})
+
+    # アップロードファイルの情報をチェック
+    def form_valid(self, form):
+        # アップロードファイルをリスト型で取得
+        files = form.cleaned_data["files"]
+        print("ファイルをアップロードしました！") # あとで消す
+        print(files)# あとで消す
+
+        # アップロード対象の Issue を取得
+        issue_pk = self.kwargs.get('pk')
+        self.issue = get_object_or_404(Issues, pk=issue_pk)
+
+        # アップロードファイルを Issue に関連付けて保存
+        for file in files:
+            # UploadFile作成時に title に file.name を設定
+            UploadFile.objects.create(issue=self.issue, file=file, title=file.name)
+
+        return super().form_valid(form)
+
 # ログインビューを作成
 class LoginView(BaseLoginView):
     form_class = LoginForm
@@ -157,9 +190,4 @@ class LoginView(BaseLoginView):
 # ログアウトビューを作成
 class LogoutView(BaseLogoutView):
     success_url = reverse_lazy("list")
-
-# 添付ファイル（作成中　できない）
-# def detail(request):
-#     file_obj = Document.objects.all()
-#     return render(request, 'detail.html', {'file_obj': file_obj})
 
