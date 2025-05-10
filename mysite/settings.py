@@ -46,11 +46,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'django_cleanup.apps.CleanupConfig',  # django-cleanup ファイル削除のため追加
-    
-    # cloudinaryの追加
-    # 'cloudinaryapp'
-    'cloudinary',
-    'cloudinary_storage',
 
     # アプリを追加
     'issue',
@@ -165,13 +160,4 @@ LOGIN_URL = "login"
 
 # 画像用
 MEDIA_URL = '/media/' # 添付ファイル
-if DEBUG:
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # 添付ファイル
-else:
-    CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': env('CLOUDINARY_CLOUD_NAME'), # cloudinaryのCLOUD_NAME
-        'API_KEY': env('CLOUDINARY_API_KEY'), # cloudinaryのAPI_KEY
-        'API_SECRET': env('CLOUDINARY_API_SECRET') # cloudinaryのAPI_SECRET
-    }
-
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # 添付ファイル

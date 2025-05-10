@@ -46,30 +46,18 @@ class CommentForm(forms.ModelForm):
 
 # 検索フォーム
 class SearchForm(forms.Form):
-    # 年の選択肢を動的に作る 中身
-    years = [(year, f'{year}年') for year in reversed(range(2023,2031))]
-    years.insert(0, (0, ''))  # 空白の選択を追加
-    YEAR_CHOICES = tuple(years)
-
-    # 月の選択肢を動的に作る
-    months = [(month, f'{month}月') for month in range(1, 13)]
-    months.insert(0, (0, ''))
-    MONTH_CHOICES = tuple(months)
-
-    # 年の選択　外側
-    year = forms.ChoiceField(
-        label='年での絞り込み',
+    # 期限（from）
+    from_deadline = forms.DateField(
+        label='期限（from）',
         required=False,
-        choices=YEAR_CHOICES,
-        widget=forms.Select(attrs={'class': 'form'})
+        widget=DataInput(),# カレンダー
     )
 
-    # 月の選択
-    month = forms.ChoiceField(
-        label='月での絞り込み',
+    # 期限（to）
+    to_deadline = forms.DateField(
+        label='期限（to）',
         required=False,
-        choices=MONTH_CHOICES,
-        widget=forms.Select(attrs={'class': 'form'})
+        widget=DataInput(),# カレンダー
     )
 
     # キーワード
@@ -85,9 +73,9 @@ class SearchForm(forms.Form):
     # モデルからフィールドを引っぱってきてリスト作成
     PROGRESS_CHOICES = [('', '---------')] + list(Issues._meta.get_field('progress').choices)
 
-    # 進捗状況の検索
+    # 進捗状況
     progress = forms.ChoiceField(
-        label='進捗状況で絞り込み',
+        label='進捗状況',
         required=False,
         choices=PROGRESS_CHOICES,
         widget=forms.Select(attrs={'class': 'form'})

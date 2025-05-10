@@ -1,21 +1,30 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Home｜issue-management{% endblock title %}
 
 {% block content %}
 
 <!-- 検索フォーム -->
 <form class="mt-2" id="search-form" action="" method="GET">
+  検索する
   <div>
-    <label class="label mr-4">年月</label>
-    {{ search_form.year }}
-    {{ search_form.month }}
-  </div>
-  <div class="mt-4">
+    <label for="{{ search_form.from_deadline.id_for_label }}" class="label mr-4">{{ search_form.from_deadline.label }}</label>
+    {{ search_form.from_deadline }}
+
+    <label for="{{ search_form.to_deadline.id_for_label }}" class="label mr-4">期限（to）</label>
+    {{ search_form.to_deadline }}
+
+    <label for="{{ search_form.progress.id_for_label }}" class="label mr-4">進捗状況</label>
+    {{ search_form.progress }}
+
     {{ search_form.key_word }}
+    
     <button class="btn btn-info ml-4" type="submit">検索</button>
   </div>
-  <div class="mt-2 inline">
-    {{ search_form.progress }}
+
+  <!-- 検索クリアボタン -->
+  <div class="mt-4 d-grid gap-2 d-md-flex justify-content-md-end">
+    <a class="btn btn-outline-secondary btn-custom" href="{% url 'list' %}" role="button">検索条件クリア</a>
   </div>
 </form>
 
@@ -134,4 +143,8 @@
   </nav>
 </div>
 
+{% endblock %}
+
+{% block script %}
+  <script src="{% static "javascript/toast.js" %}"></script>
 {% endblock %}

@@ -18,22 +18,20 @@ class IssuesListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         """ 検索フォーム """
-        queryset = Issues.objects.order_by('-id')  # ソート処理。idが新しい順に並べる
+        queryset = self.model.objects.order_by('-id')  # ソート処理。idが新しい順に並べる
         self.form = form = SearchForm(self.request.GET or None)
 
         if form.is_valid():
-            # 年で絞り込み
-            year = form.cleaned_data.get('year')
-            # 対象に値がある、かつ、0以外か（選択なしの時は0の文字列が入る）
-            if year and year != '0':
-                queryset = queryset.filter(deadline__year=year)  # モデル定義した`deadline__year`
+            # 期限（from）
+            from_deadline = form.cleaned_data.get('from_deadline')
+            if from_deadline:
+                queryset = queryset.filter(deadline__gte=from_deadline)
 
-            # 月で絞り込み
-            month = form.cleaned_data.get('month')
-            # 対象に値がある、かつ、0以外か（選択なしの時は0の文字列が入る）
-            if month and month != '0':
-                queryset = queryset.filter(deadline__month=month)
-            
+            # 期限（to）
+            to_deadline = form.cleaned_data.get('to_deadline')
+            if to_deadline:
+                queryset = queryset.filter(deadline__lte=to_deadline)
+
             # キーワードで絞り込み
             key_word = form.cleaned_data.get('key_word')
             if key_word:
