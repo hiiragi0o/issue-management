@@ -12,7 +12,7 @@
 
 <!-- issue の内容を登録 -->
 <div class="m-2 p-2">
-    <p>課題No. は自動で付与されます。登録後、課題の詳細画面に遷移します。</p>
+    <p>更新後、課題の詳細画面に遷移します。</p>
 
     <div class="p-3 mt-3 bg-white rounded">
         <form method="POST">
@@ -78,16 +78,5 @@
                 </div>
         </form>
     </div>
-
-
-
-
-{% comment %} <div class="p-4">
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">更新</button>
-    </form>
-</div> {% endcomment %}
-
+</div>
 {% endblock %}

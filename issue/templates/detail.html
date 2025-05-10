@@ -47,7 +47,7 @@
     <ul class="list-group list-group-flush">
         {% for file in object.uploaded_files.all %}
             <li class="list-group-item">
-                <a href="{{ file.file.url }}">{{ file.filename }}</a>　{{ file.file.size }} MB
+                <a href="{{ file.file.url }}">{{ file.filename }}</a>　{{ file.file_size }} KB
                 {% comment %} <form action="{% url 'delete_file' file.id %}" method="post" class="d-inline">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-link text-danger">削除</button>
@@ -216,6 +216,7 @@ btn.addEventListener('click', () => {
 <!-- このページのみフッター下側にマージンを設ける -->
 {% block footer %}
     <footer class="mb-5">
-    <a href="{% url 'list' %}">リストに戻る</a>
+        {% load issue %}
+        <a href="{% get_return_link request %}"> <&nbsp; 戻る</a>
     </footer>
 {% endblock %}

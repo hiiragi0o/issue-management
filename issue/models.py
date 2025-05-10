@@ -51,5 +51,6 @@ class UploadFile(models.Model):
         return self.file.name.split("/")[-1]  # uploads/を除くファイル名だけ取得
 
     # ファイルサイズを取得
-    def get_file_size(self):
-        return self.file.size # バイト単位のみ
+    @property
+    def file_size(self):
+        return self.file.size // 1024  # KB単位で取得 
