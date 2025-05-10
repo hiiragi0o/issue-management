@@ -93,7 +93,8 @@
 
       {% block footer %}
         <footer>
-          <a href="{% url 'list' %}">リストに戻る</a>
+          {% load issue %}
+          <a href="{% get_return_link request %}"> <&nbsp; 戻る</a>
         </footer>
       {% endblock %}
     </div>
