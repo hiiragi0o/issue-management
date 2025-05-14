@@ -6,25 +6,39 @@
 
 <!-- 検索フォーム -->
 <form class="mt-2" id="search-form" action="" method="GET">
-  検索する
-  <div>
-    <label for="{{ search_form.from_deadline.id_for_label }}" class="label mr-4">{{ search_form.from_deadline.label }}</label>
-    {{ search_form.from_deadline }}
+  
+  <div class="p-3 mb-3 bg-secondary-subtle rounded">
+    <p>検索条件を指定して「検索する」ボタンを押してください。</p>
+  <label for="{{ search_form.key_word.id_for_label }}" class="label m-2">件名</label>
+    {{ search_form.key_word }}　
 
-    <label for="{{ search_form.to_deadline.id_for_label }}" class="label mr-4">期限（to）</label>
-    {{ search_form.to_deadline }}
+  <label for="period" class="label m-2">期限日</label>
+    {{ search_form.from_deadline }}&nbsp; 〜&nbsp; {{ search_form.to_deadline }}　</p>
 
-    <label for="{{ search_form.progress.id_for_label }}" class="label mr-4">進捗状況</label>
-    {{ search_form.progress }}
+  
+    <label for="{{ search_form.progress.id_for_label }}" class="label m-2">進捗状況</label>
+    {{ search_form.progress }}　
 
-    {{ search_form.key_word }}
-    
-    <button class="btn btn-info ml-4" type="submit">検索</button>
-  </div>
+    <label for="{{ search_form.type.id_for_label }}" class="label m-2">タイプ</label>
+    {{ search_form.type }}　
 
-  <!-- 検索クリアボタン -->
-  <div class="mt-4 d-grid gap-2 d-md-flex justify-content-md-end">
-    <a class="btn btn-outline-secondary btn-custom" href="{% url 'list' %}" role="button">検索条件クリア</a>
+    <label for="{{ search_form.person.id_for_label }}" class="label m-2">担当者</label>
+    {{ search_form.person }}　
+
+
+    <div class="mt-2 d-grid gap-2 d-md-flex justify-content-md-end">
+          
+
+      <!-- 検索ボタン -->
+      <button class="btn btn-outline-primary" type="submit">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+        </svg>
+        検索する
+      </button>　
+      <!-- 検索条件クリアボタン -->
+      <a class="btn btn-outline-secondary btn-custom" href="{% url 'list' %}" role="button">検索条件クリア</a>
+    </div>
   </div>
 </form>
 
@@ -52,11 +66,10 @@
       <tr>
         <th scope="col">#</th>
         <th scope="col">件名</th>
-        <th scope="col">更新日​</th>
         <th scope="col">期限日</th>
-        <th scope="col">区分</th>
+        <th scope="col">タイプ</th>
         <th scope="col">担当者</th>
-        <th scope="col">状態</th>
+        <th scope="col">進捗状況</th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -65,7 +78,6 @@
       <tr class="align-middle">
         <th scope="row">{{ issues.id }}</th>
         <td>{{ issues.title }}</td>
-        <td>{{ issues.date_of_update }}</td>
         <td>
           {% if now_date > issues.deadline %} 
             <span style="color: #e60012">{{ issues.deadline }}
@@ -79,7 +91,7 @@
           {% endif %}
         </td>
         <td>{{ issues.get_type_display }}</td>
-        <td>{{ issues.get_person_display }}</td>
+        <td>{{ issues.person }}</td>
         <td>{{ issues.get_progress_display }}</td>
         <td><a href="{% url 'detail' issues.id %}" class="btn btn-secondary">詳細</a></td>
       </tr>

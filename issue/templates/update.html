@@ -38,7 +38,7 @@
                 <b><font color="red">{{ form.deadline.errors }}</font></b>
 
                 <label for="type">
-                    区分：
+                    タイプ：
                 </label>
                 <select id="type" class="form-control mb-3" name="type">
                     {% for choice in form.type.field.choices %}
@@ -58,7 +58,7 @@
                 <b><font color="red">{{ form.person.errors }}</font></b>
 
                 <label for="progress">
-                    状態：
+                    進捗状況：
                 </label>
                 <select id="progress" class="form-control mb-3" name="progress">
                     {% for choice in form.progress.field.choices %}

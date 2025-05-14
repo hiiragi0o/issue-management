@@ -16,8 +16,8 @@
 <div class="p-3 mt-3 bg-white rounded">
     <h2 class="h4">No. {{ object.id }}　{{ object.title }}</h2><hr>
         <div><small>
-            期限日：&nbsp; <strong> {{ object.deadline }} </strong>　状態：&nbsp; <strong> {{ object.get_progress_display }} </strong>
-                    　区分：&nbsp; <strong>{{ object.get_type_display }}</strong>
+            期限日：&nbsp; <strong> {{ object.deadline }} </strong>　進捗状況：&nbsp; <strong> {{ object.get_progress_display }} </strong>
+                    　タイプ：&nbsp; <strong>{{ object.get_type_display }}</strong>
                     　予算：&nbsp; <strong>{{ object.budget|default_if_none:"--" }} 円</strong>
                     　担当者：&nbsp; <strong>{{ object.person }}</strong>
         </small></div>
@@ -47,7 +47,8 @@
     <ul class="list-group list-group-flush">
         {% for file in object.uploaded_files.all %}
             <li class="list-group-item">
-                <a href="{{ file.file.url }}">{{ file.filename }}</a>{{ file.file.url }}
+                <a href="{{ file.file.url }}">{{ file.filename }}</a>　<small>{{ file.uploaded_at }}</small>
+                <p class="text-end blockquote-footer mb-0">ファイルサイズ：{{ file.file_size }} KB </p>
                 {% comment %} <form action="{% url 'delete_file' file.id %}" method="post" class="d-inline">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-link text-danger">削除</button>

@@ -14,7 +14,7 @@ from .forms import FileFieldForm, SearchForm, SignUpForm, LoginForm, CommentForm
 class IssuesListView(LoginRequiredMixin, ListView):
     template_name = 'list.html' # htmlの命名
     model = Issues # どのモデルを引用するか定義
-    paginate_by = 2 # 1ページあたりの表示件数
+    paginate_by = 5 # 1ページあたりの表示件数
 
     def get_queryset(self):
         """ 検索フォーム """
@@ -38,11 +38,26 @@ class IssuesListView(LoginRequiredMixin, ListView):
                 # 空欄で区切り、順番に絞る、and検索
                 for word in key_word.split():
                     queryset = queryset.filter(title__icontains=word)
-            
+
+            # タイプでの絞り込み
+            type = form.cleaned_data.get('type')
+            if type:
+                queryset = queryset.filter(type=type)
+
+            # 担当者での絞り込み
+            person = form.cleaned_data.get('person')
+            if person:
+                queryset = queryset.filter(person=person)
+
             # 進捗状況での絞り込み
             progress = form.cleaned_data.get('progress')
             if progress:
                 queryset = queryset.filter(progress=progress)
+
+            
+            # 検索結果が0件の場合
+            if not queryset.exists():
+                messages.error(self.request, "該当する課題はありません。")
 
         return queryset
 

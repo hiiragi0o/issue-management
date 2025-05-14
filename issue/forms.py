@@ -44,7 +44,7 @@ class CommentForm(forms.ModelForm):
         model = ProgressComment
         fields = ('comment',)
 
-# 検索フォーム
+""" 検索フォーム """
 class SearchForm(forms.Form):
     # 期限（from）
     from_deadline = forms.DateField(
@@ -71,8 +71,24 @@ class SearchForm(forms.Form):
     )
 
     # モデルからフィールドを引っぱってきてリスト作成
-    PROGRESS_CHOICES = [('', '---------')] + list(Issues._meta.get_field('progress').choices)
+    TYPE_CHOICES = [('', '---------')] + list(Issues._meta.get_field('type').choices)
+    # タイプ
+    type = forms.ChoiceField(
+        label='タイプ',
+        required=False,
+        choices=TYPE_CHOICES,
+        widget=forms.Select(attrs={'class': 'form'})
+    )
+    # 担当者
+    person = forms.ModelChoiceField(
+        label='担当者',
+        required=False,
+        queryset=User.objects.filter(is_superuser=False),
+        widget=forms.Select(attrs={'class': 'form'})
+    )
 
+    # モデルからフィールドを引っぱってきてリスト作成
+    PROGRESS_CHOICES = [('', '---------')] + list(Issues._meta.get_field('progress').choices)
     # 進捗状況
     progress = forms.ChoiceField(
         label='進捗状況',
@@ -80,6 +96,8 @@ class SearchForm(forms.Form):
         choices=PROGRESS_CHOICES,
         widget=forms.Select(attrs={'class': 'form'})
     )
+
+
 
 """ 添付ファイル アップロードフォーム """
 # 複数のファイルをアップロードするウィジェットクラス
@@ -103,7 +121,7 @@ class MultipleFileField(forms.FileField):
 # 複数のファイルをアップロードするフォームクラス
 class FileFieldForm(forms.Form):
     #  複数のファイルをアップロードするフィールドを作成
-    files = MultipleFileField(label="shift キーで複数のファイルを選択できます。")
+    files = MultipleFileField(label="Ctrl キーで複数のファイルを選択できます。")
 
     # 拡張子を限定する
     def clean_files(self):
