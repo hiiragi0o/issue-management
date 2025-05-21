@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}詳細｜issue-management{% endblock title %}
 
 
@@ -70,10 +71,6 @@
     </ul>
 </div>
 
-<!-- 進捗状況 実行すると以下のようにターミナルに出るがファイルがない。
-ファイルをアップロードしました！
-[<InMemoryUploadedFile: render-banner.png (image/png)>] -->
-
 <!-- メッセージを表示（トースト） -->
 <div class="toast-container position-fixed top-0 end-0 p-3">
     {% if messages %}
@@ -91,7 +88,7 @@
     {% endif %} 
 </div>    
 
-<!-- クリップボードコピー内容 -->
+<!-- クリップボードJSでコピーする内容 -->
 <div id="txt" style="display:none;">
     <p>アプリにログインして、進捗を確認してください。</p>
     <p>No. {{ object.id }}　{{ object.title }}</p>
@@ -191,30 +188,6 @@
     }
 </script> {% endcomment %}
 
-<!-- クリップボードコピーJS -->
-<script>
-// HTML要素取得
-const txt = document.getElementById('txt');
-const btn = document.getElementById('btn');
-
-// コピー処理（btnがクリックされたらtxtをコピーする）
-btn.addEventListener('click', () => {
-    if (!navigator.clipboard) {
-        alert("残念ですが、このブラウザは対応していません...");
-        return;
-    }
-
-    navigator.clipboard.writeText(txt.textContent).then(
-        () => {
-        alert('リンクをクリップボードにコピーできました！\nメール本文などに貼り付けて利用できます。');
-        },
-        () => {
-        alert('クリップボードにコピーできませんでした。');
-        });
-});
-</script>
-
-
 {% endblock %}
 
 <!-- このページのみフッター下側にマージンを設ける -->
@@ -223,4 +196,7 @@ btn.addEventListener('click', () => {
         {% load issue %}
         <a href="{% get_return_link request %}"> <&nbsp; 戻る</a>
     </footer>
+{% endblock %}
+{% block script %}
+    <script src="{% static "javascript/clipboard.js" %}"></script>
 {% endblock %}
