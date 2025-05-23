@@ -1,5 +1,3 @@
-// クリップボードコピーのJS
-
 // HTML要素取得
 const txt = document.getElementById('txt');
 const btn = document.getElementById('btn');
