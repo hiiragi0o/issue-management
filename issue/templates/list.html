@@ -79,7 +79,8 @@
         <th scope="row">{{ issues.id }}</th>
         <td>{{ issues.title }}</td>
         <td>
-          {% if now_date > issues.deadline %} 
+          <!-- 今日が期限日を過ぎている、かつ進捗状況が完了、対応不要　以外の時に赤く表示 -->
+          {% if now_date > issues.deadline and issues.progress != 0 and issues.progress != 4 %} 
             <span style="color: #e60012">{{ issues.deadline }}
               <!-- アイコン -->
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16">
