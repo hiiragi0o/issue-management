@@ -12,7 +12,7 @@
         <label for="name">
             ユーザー名
         </label>
-        <!-- 入力値があれば残す設定：value -->
+        <!-- 入力値があれば保持する設定：value -->
         <input id="name" type="text" class="form-control mb-3" name="username" value="{{ form.username.value|default_if_none:"" }}">
         <!-- 空白の場合エラーを表示 -->
         <b><font color="red">{{ form.username.errors }}</font></b>

@@ -34,7 +34,7 @@
                 <label for="deadline">
                     期限日：
                 </label>
-                <input id="deadline" type="date" class="form-control mb-3" name="deadline" value="{{ form.deadline.value|default_if_none:"" }}">
+                <input required id="deadline" type="date" class="form-control mb-3" name="deadline" value="{{ form.deadline.value|date:'Y-m-d'|default_if_none:"" }}">
                 <b><font color="red">{{ form.deadline.errors }}</font></b>
 
                 <label for="type">

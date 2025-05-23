@@ -2,14 +2,22 @@
 {% block title %}削除｜issue-management{% endblock title %}
 
 {% block content %}
-<h1>
-    delete
-</h1>
+{% block h1 %}削除画面{% endblock h1 %}
+
 <div class="p-4">
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">削除する</button>
+        <!-- issue の内容 -->
+        <p>この課題を削除します。よろしいですか？</p>
+        <div class="p-3 mt-3 bg-light rounded">
+        <p>課題No.：{{ object.id }}</p>
+        <p>件名：{{ object.title }}</p>
+        <p>内容：{{ object.contents }}</p>
+        </div>
+        {% comment %} <button type="submit">削除する</button> {% endcomment %}
+        <button type="submit" class="btn btn-outline-danger btn-custom mt-4">削除する</button>
+
     </form>
 </div>
 

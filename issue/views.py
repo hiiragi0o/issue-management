@@ -80,12 +80,13 @@ class IssuesDetailView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
 
         return context
 
-class IssuesCreateView(LoginRequiredMixin, CreateView):
+class IssuesCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = 'create.html'
     model = Issues
     form_class =  IssuesForm
+    success_message = "課題が作成されました！"
     
-    # success_url = 更新成功したら該当のdetailページに遷移する
+    # success_url = 作成に成功したら該当のdetailページに遷移する
     def get_success_url(self):
         return reverse_lazy('detail', kwargs={'pk': self.object.pk})
 
@@ -93,19 +94,22 @@ class IssuesCreateView(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-class IssuesUpdateView(LoginRequiredMixin, UpdateView):
+class IssuesUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = 'update.html'
     model = Issues
     form_class =  IssuesForm
+    success_message = "課題が更新されました！"
 
     # success_url = 更新成功したら該当のdetailページに遷移する
     def get_success_url(self):
         return reverse_lazy('detail', kwargs={'pk': self.object.pk})
 
-class IssuesDeleteView(LoginRequiredMixin, DeleteView):
+class IssuesDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     template_name = 'delete.html'
     model = Issues
     success_url = reverse_lazy("list")
+    success_message = "課題が削除されました！"
+
 
 class CommentCreateView(LoginRequiredMixin, CreateView):
     """
@@ -181,8 +185,6 @@ class FileFieldFormView(FormView):
     def form_valid(self, form):
         # アップロードファイルをリスト型で取得
         files = form.cleaned_data["files"]
-        print("ファイルをアップロードしました！") # あとで消す
-        print(files)# あとで消す
 
         # アップロード対象の Issue を取得
         issue_pk = self.kwargs.get('pk')
@@ -196,9 +198,10 @@ class FileFieldFormView(FormView):
         return super().form_valid(form)
 
 # ログインビューを作成
-class LoginView(BaseLoginView):
+class LoginView(SuccessMessageMixin, BaseLoginView):
     form_class = LoginForm
     template_name = "login.html"
+    success_message = "ログインしました！"
 
 # ログアウトビューを作成
 class LogoutView(BaseLogoutView):
