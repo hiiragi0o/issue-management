@@ -165,13 +165,21 @@ LOGIN_URL = "login"
 """ 画像用 """
 MEDIA_URL = '/media/' # 添付ファイル
 # DEBUGがTrueだったらMEDIA_ROOT、FalseならCloudinaryにアップする
-if DEBUG: 
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-else:
-    CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': env('CLOUDINARY_CLOUD_NAME'), 
-        'API_KEY': env('CLOUDINARY_API_KEY'), 
-        'API_SECRET': env('CLOUDINARY_API_SECRET'),
-    }
+# if not DEBUG: 
+#     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# else:
+#     CLOUDINARY_STORAGE = {
+#         'CLOUD_NAME': env('CLOUDINARY_CLOUD_NAME'), 
+#         'API_KEY': env('CLOUDINARY_API_KEY'), 
+#         'API_SECRET': env('CLOUDINARY_API_SECRET'),
+#     }
 
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+#     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# AWS S3の設定
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_STORAGE_BUCKET_NAME = 'issue-management0'
+AWS_S3_REGION_NAME = 'ap-northeast-1'
+
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')

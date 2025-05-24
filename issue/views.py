@@ -111,13 +111,14 @@ class IssuesDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     success_message = "課題が削除されました！"
 
 
-class CommentCreateView(LoginRequiredMixin, CreateView):
+class CommentCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     """
     課題へのコメント作成ビュー
     ページは表示されないが、コメントを作成するために使用
     """
     model = ProgressComment
     form_class = CommentForm
+    success_message = "コメントが作成されました！"
 
     #　格納する値をチェック
     def form_valid(self, form):
@@ -129,7 +130,10 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         progresscomment.issues = issues
         progresscomment.save()
 
-        return redirect('detail', pk=issues_pk)
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('detail', kwargs={'pk': self.object.issues.id})
 
 class CommentUpdateView(LoginRequiredMixin, UpdateView):
     """
