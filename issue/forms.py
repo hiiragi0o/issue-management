@@ -29,6 +29,7 @@ class LoginForm(AuthenticationForm):
 class DataInput(forms.DateInput):
     input_type = 'date'
 
+
 # Issues用フォーム
 class IssuesForm(forms.ModelForm):
     class Meta:
@@ -38,11 +39,13 @@ class IssuesForm(forms.ModelForm):
             'deadline': DataInput(),# カレンダー
         }
 
+
 # コメント投稿フォーム
 class CommentForm(forms.ModelForm):
     class Meta:
         model = ProgressComment
         fields = ('comment',)
+
 
 """ 検索フォーム """
 class SearchForm(forms.Form):
@@ -98,11 +101,11 @@ class SearchForm(forms.Form):
     )
 
 
-
 """ 添付ファイル アップロードフォーム """
 # 複数のファイルをアップロードするウィジェットクラス
 class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
+
 
 # 複数のファイルをアップロードするフィールドクラス
 class MultipleFileField(forms.FileField):
@@ -117,6 +120,7 @@ class MultipleFileField(forms.FileField):
         else:
             result = single_file_clean(data, initial)
         return result
+
 
 # 複数のファイルをアップロードするフォームクラス
 class FileFieldForm(forms.Form):
