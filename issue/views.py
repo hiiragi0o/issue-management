@@ -135,27 +135,6 @@ class CommentCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     def get_success_url(self):
         return reverse_lazy('detail', kwargs={'pk': self.object.issues.id})
 
-class CommentUpdateView(LoginRequiredMixin, UpdateView):
-    """
-    課題へのコメント編集ビュー
-    ページは表示されないが、コメントを作成するために使用
-    """
-    model = ProgressComment
-    form_class = CommentForm
-
-    #　格納する値をチェック
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        issues_id = self.kwargs.get('issue_id')
-        issues = get_object_or_404(Issues, pk=issues_id)
-        comment_id = self.kwargs.get('pk')
-        comment = get_object_or_404(ProgressComment, pk=comment_id)
-
-        progresscomment = form.save(commit=False)# データベース未保存のオブジェクトを返す
-        progresscomment.save()
-
-        return redirect('detail', pk=issues_id)
-
 class CommentIndexView(ListView):
     model = ProgressComment
     queryset = ProgressComment.objects.order_by('-id')
