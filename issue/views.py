@@ -11,6 +11,7 @@ from django.contrib import messages
 from django.db.models import Q # get_queryset()用に追加
 from .forms import FileFieldForm, SearchForm, SignUpForm, LoginForm, CommentForm, IssuesForm
     
+
 class IssuesListView(LoginRequiredMixin, ListView):
     template_name = 'list.html'
     model = Issues
@@ -67,6 +68,7 @@ class IssuesListView(LoginRequiredMixin, ListView):
         context['now_date'] = datetime.date.today()  # 期限日の判断のため、今日を取得
         return context
 
+
 class IssuesDetailView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
     template_name = 'detail.html'
     model = Issues
@@ -79,6 +81,7 @@ class IssuesDetailView(LoginRequiredMixin, SuccessMessageMixin, DetailView):
         context['comment_form'] = CommentForm
 
         return context
+
 
 class IssuesCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = 'create.html'
@@ -94,6 +97,7 @@ class IssuesCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+
 class IssuesUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = 'update.html'
     model = Issues
@@ -103,6 +107,7 @@ class IssuesUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     # success_url = 更新成功したら該当のdetailページに遷移する
     def get_success_url(self):
         return reverse_lazy('detail', kwargs={'pk': self.object.pk})
+
 
 class IssuesDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     template_name = 'delete.html'
@@ -135,9 +140,11 @@ class CommentCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     def get_success_url(self):
         return reverse_lazy('detail', kwargs={'pk': self.object.issues.id})
 
+
 class CommentIndexView(ListView):
     model = ProgressComment
     queryset = ProgressComment.objects.order_by('-id')
+
 
 class SignupView(SuccessMessageMixin, CreateView):
     """ ユーザー登録用ビュー """
@@ -154,6 +161,7 @@ class SignupView(SuccessMessageMixin, CreateView):
         user = authenticate(username=username, password=password)
         login(self.request, user)
         return response
+
 
 # 添付ファイル
 class FileFieldFormView(FormView):
@@ -180,11 +188,13 @@ class FileFieldFormView(FormView):
 
         return super().form_valid(form)
 
+
 # ログインビューを作成
 class LoginView(SuccessMessageMixin, BaseLoginView):
     form_class = LoginForm
     template_name = "login.html"
     success_message = "ログインしました！"
+
 
 # ログアウトビューを作成
 class LogoutView(BaseLogoutView):
