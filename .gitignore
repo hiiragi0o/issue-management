@@ -9,5 +9,5 @@ media_local
 db.sqlite3
 
 # 添付ファイル
-/media/uploads/
+/media/uploads/**
 !/media/uploads/.gitkeep
