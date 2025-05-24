@@ -7,13 +7,13 @@ from django.urls import reverse_lazy
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.views import LoginView as BaseLoginView,  LogoutView as BaseLogoutView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib import messages #　検索結果のメッセージのため追加
+from django.contrib import messages
 from django.db.models import Q # get_queryset()用に追加
 from .forms import FileFieldForm, SearchForm, SignUpForm, LoginForm, CommentForm, IssuesForm
     
 class IssuesListView(LoginRequiredMixin, ListView):
-    template_name = 'list.html' # htmlの命名
-    model = Issues # どのモデルを引用するか定義
+    template_name = 'list.html'
+    model = Issues
     paginate_by = 5 # 1ページあたりの表示件数
 
     def get_queryset(self):

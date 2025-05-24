@@ -15,8 +15,7 @@ class Issues(models.Model):
     budget = models.IntegerField(blank=True,null=True)
     user = models.ForeignKey(User, related_name='user', on_delete=models.PROTECT)# 作成者=loginユーザー
 
-# self がRecord というclassから作成された object 
-# そのtitleを返す
+    # titleを返す
     def __str__(self):
         return self.title
     

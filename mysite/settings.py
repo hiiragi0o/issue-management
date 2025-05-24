@@ -47,10 +47,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'django_cleanup.apps.CleanupConfig',  # django-cleanup ファイル削除のため追加
 
-    # cloudinaryの追加
-    'cloudinary',
-    'cloudinary_storage',
-
     # アプリを追加
     'issue',
 ]
@@ -91,14 +87,6 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
 
 if DEBUG:
     DATABASE_URL = 'sqlite:///' + str(BASE_DIR / 'db.sqlite3')
@@ -162,24 +150,16 @@ LOGIN_REDIRECT_URL = "list"
 LOGOUT_REDIRECT_URL = "login"
 LOGIN_URL = "login"
 
-""" 画像用 """
-MEDIA_URL = '/media/' # 添付ファイル
-# DEBUGがTrueだったらMEDIA_ROOT、FalseならCloudinaryにアップする
-# if not DEBUG: 
-#     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# else:
-#     CLOUDINARY_STORAGE = {
-#         'CLOUD_NAME': env('CLOUDINARY_CLOUD_NAME'), 
-#         'API_KEY': env('CLOUDINARY_API_KEY'), 
-#         'API_SECRET': env('CLOUDINARY_API_SECRET'),
-#     }
+""" 添付ファイルの設定 """
+MEDIA_URL = '/media/'
+# DEBUG = Trueの時はローカルに保存する
+if DEBUG:
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+else:
+    # AWS S3の設定
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    AWS_STORAGE_BUCKET_NAME = 'issue-management0'
+    AWS_S3_REGION_NAME = 'ap-northeast-1'
 
-#     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-# AWS S3の設定
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_STORAGE_BUCKET_NAME = 'issue-management0'
-AWS_S3_REGION_NAME = 'ap-northeast-1'
-
-AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+    AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
