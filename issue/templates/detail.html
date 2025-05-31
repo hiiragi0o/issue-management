@@ -91,7 +91,7 @@
     <p class="h6 mt-4">コメント</p>
         <div>
             <a class="navbar-brand">
-                {% for comment in issues.progresscomment_set.all %}
+            {% for comment in issues.progresscomment_set.all %}
                 <hr>    
                 <p>
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -99,18 +99,44 @@
                         <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
                     </svg>
                     <b>&nbsp; {{ comment.user }} さん</b>　{{ comment.create_date }}　
+                    <!-- コメント編集ボタン -->
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal-{{ comment.id }}">編集</button>
                 </p>
                 <p>
                     <nav class="p-3 m-3 navbar-expand-lg border-light-subtle bg-white text-wrap rounded">{{ comment.comment | linebreaksbr }}</nav>
                 </p>
-                
-                {% endfor %}
+                <!-- コメント編集モーダル -->
+                <div class="modal fade" id="editModal-{{ comment.id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="editModalLabel">コメント編集</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{% url 'comment_update' comment.id %}" method="post">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label for="comment" class="form-label">コメント内容</label>
+                                        <textarea id="edit-comment-{{ comment.id }}" class="form-control" name="comment" rows="5">{{ comment.comment }}</textarea>
+                                    </div>
+                                        <p class="text-end"><small>入力日時：{{ comment.create_date }} <br>更新日時：{{ comment.update_date }}</small></p>
+                                        <p class="text-end"><small>※ 編集後は「保存」ボタンを押してください。</small></p>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+                                        <button type="submit" class="btn btn-primary">保存</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
             </a>
         </div>
-    
 </div>
 
-<!-- コメント送信欄 -->
+<!-- コメント作成 -->
 <div>
     <nav class="fixed-bottom bg-body-tertiary border border-danger-subtle">
         <p class="mb-0 d-grid gap-2">

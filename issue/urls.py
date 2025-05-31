@@ -12,5 +12,6 @@ urlpatterns = [
     path('update/<int:pk>/', views.IssuesUpdateView.as_view(), name='update'),
     path('delete/<int:pk>/', views.IssuesDeleteView.as_view(), name='delete'),
     path('comment/create/<int:pk>/', views.CommentCreateView.as_view(), name='comment_create'),
+    path('comment/update/<int:pk>/', views.CommentUpdateView.as_view(), name='comment_update'),
     path('upload/<int:pk>/', views.FileFieldFormView.as_view(), name='upload'),# 添付ファイル
 ]
