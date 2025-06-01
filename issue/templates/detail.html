@@ -99,8 +99,13 @@
                         <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
                     </svg>
                     <b>&nbsp; {{ comment.user }} さん</b>　{{ comment.create_date }}　
-                    <!-- コメント編集ボタン -->
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal-{{ comment.id }}">編集</button>
+                    <!-- コメント投稿ユーザーがログインユーザーと一致する場合のみボタンを表示 -->
+                    {% if comment.user.id == user.id %}
+                        <!-- コメント編集ボタン -->
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal-{{ comment.id }}">編集</button>
+                        <!-- コメント削除ボタン -->
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ comment.id }}">削除</button>
+                    {% endif %}
                 </p>
                 <p>
                     <nav class="p-3 m-3 navbar-expand-lg border-light-subtle bg-white text-wrap rounded">{{ comment.comment | linebreaksbr }}</nav>
@@ -126,6 +131,30 @@
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
                                         <button type="submit" class="btn btn-primary">保存</button>
                                     </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- コメント削除モーダル -->
+                <div class="modal fade" id="deleteModal-{{ comment.id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h2 class="modal-title fs-5" id="deleteModalLabel">コメント削除</h2>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>コメントNo.：{{ comment.id }}</p>
+                                <textarea disabled id="edit-comment-{{ comment.id }}" class="form-control" name="comment" rows="5">{{ comment.comment }}</textarea>
+                                <p>このコメントを削除します。よろしいですか？</p>
+                                <p class="text-danger">※ 削除したコメントは復元できません。</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+                                <form action="{% url 'comment_delete' comment.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">削除</button>
                                 </form>
                             </div>
                         </div>

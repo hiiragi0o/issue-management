@@ -167,6 +167,22 @@ class CommentUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return reverse_lazy('detail', kwargs={'pk': self.object.issues.id})
 
 
+class CommentDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    """
+    課題へのコメント削除ビュー
+    ページは表示されないが、コメントを削除するために使用
+    """
+    model = ProgressComment
+    success_message = "コメントが削除されました！"
+
+    def get_success_url(self):
+        return reverse_lazy('detail', kwargs={'pk': self.object.issues.id})
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(request, self.success_message)
+        return super().delete(request, *args, **kwargs)
+
+
 class CommentIndexView(ListView):
     model = ProgressComment
     queryset = ProgressComment.objects.order_by('-id')
