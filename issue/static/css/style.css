@@ -1,1 +1,141 @@
-/* カスタムCSS */
+body {
+    color: #5f6c7b;
+    /* サイト全体の文字色を指定 */
+}
+
+a {
+    color: #3da9fc;
+    text-decoration: none;
+    /* リンクの下線を消す */
+}
+
+a:hover {
+    color: #1e7bbf;
+    /* ホバー時の色（少し濃い青） */
+}
+
+.form-control {
+    background-color: #f0f4f8;
+    /* テキストエリアの背景色 */
+    border: 3px solid #094067;
+    /* テキストエリアの枠線 */
+    color: #094067;
+    /* テキストエリアの文字色 */
+}
+
+.btn-primary {
+    background-color: #ef4565 !important;
+    border-color: #ef4565 !important;
+}
+
+.btn-primary:hover {
+    background-color: #d93c5a !important;
+    border-color: #d93c5a !important;
+}
+
+.btn-secondary {
+    background-color: #094067 !important;
+    border-color: #094067 !important;
+}
+
+.btn-secondary:hover {
+    background-color: #072f4f !important;
+    border-color: #072f4f !important;
+}
+
+.btn-danger {
+    background-color: #3da9fc !important;
+    border-color: #3da9fc !important;
+    color: white;
+    font-size: 15px;
+}
+
+.btn-danger:hover {
+    background-color: #1e7bbf !important;
+    border-color: #1e7bbf !important;
+}
+
+.btn-simple {
+    background-color: transparent;
+    border: none;
+    color: #3da9fc;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.btn-simple:hover {
+    color: #094067;
+}
+
+/* ボタン */
+.btn-round {
+    padding: 3px 10px;
+    border-radius: 50px;
+    border: 1px solid #3da9fc;
+    cursor: pointer;
+    background-color: white;
+    box-shadow: rgb(0 0 0 / 10%) 0 0 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-size: 12px;
+    transition: all 0.5s ease;
+}
+
+.btn-round:hover {
+    background-color: #f0f4f8;
+    color: hsl(0, 0%, 100%);
+}
+
+.btn-round:active {
+    letter-spacing: 3px;
+    background-color: #3da9fc;
+    color: hsl(0, 0%, 100%);
+    box-shadow: #3da9fc 0px 0px 0px 0px;
+    transform: translateY(10px);
+    transition: 100ms;
+}
+
+
+.card {
+    color: #094067;
+    /* カードの文字色 */
+    background-color: #f0f4f8;
+    /* カードの背景色 */
+    border-radius: 10px;
+    /* カードの角を丸くする */
+}
+
+.card-body {
+    border: 3px solid #ef4565;
+    /* 枠線の太さと色を指定 */
+}
+
+.table td,
+.table th {
+    color: #094067;
+    /* テーブルの文字色 */
+}
+
+
+/* ページネーションのスタイル */
+.page-link {
+    color: #094067;
+    /* リンクの色を変更 */
+}
+
+.page-link:hover {
+    color: #3da9fc;
+    /* ホバー時の色を変更 */
+}
+
+.page-item.active .page-link {
+    background-color: #094067;
+    /* アクティブなページの背景色 */
+    border-color: #094067;
+    /* アクティブなページの枠線色 */
+    color: white;
+    /* アクティブなページの文字色 */
+}

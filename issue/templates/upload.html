@@ -6,9 +6,9 @@
 {% block content %}
 {% block h1 %}ファイルをアップロード{% endblock h1 %}
 
-<div class=" m-2 p-2">
-    アップロード可能なファイルの拡張子<br>
-    [".txt", ".pdf", ".doc", .docx", ".xls", ".xlsx", ".webp", ".png", ".jpg", ".jpeg"]
+<div class="m-2 p-2">
+    アップロード可能なファイルの拡張子はつぎの通りです。<br>
+    [.txt, .pdf, .doc, .docx, .xls, .xlsx, .webp, .png, .jpg, .jpeg]
 </div>
 
 <div class="mt-2">
@@ -19,7 +19,7 @@
             {{ form.files.label }}<br>
             {{ form.files }}
         </div>
-        <button type="submit" class="mt-4">アップロードする</button>
+        <button type="submit" class="m-2 p-2 btn btn-primary">アップロードする</button>
     </form>
 </div>
 {% endblock %}

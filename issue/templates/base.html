@@ -1,4 +1,5 @@
 {% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -13,14 +14,14 @@
     <!-- ロゴ画像とテキスト -->
     <div class="navbar bg-body-tertiary">
       <div class="container-fluid">
-        <a class="navbar-brand" style="color: #e60012">
+        <a class="navbar-brand" style="color: #094067">
           <!-- アイコン -->
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-file-medical-fill" viewBox="0 0 16 16">
             <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2M8.5 4.5v.634l.549-.317a.5.5 0 1 1 .5.866L9 6l.549.317a.5.5 0 1 1-.5.866L8.5 6.866V7.5a.5.5 0 0 1-1 0v-.634l-.549.317a.5.5 0 1 1-.5-.866L7 6l-.549-.317a.5.5 0 0 1 .5-.866l.549.317V4.5a.5.5 0 1 1 1 0M5.5 9h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1m0 2h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1" />
           </svg>
           issue-management
         </a>
-        <form class="d-flex" role="search">
+        <form class="my-1" role="search">
           {% if user.is_authenticated %}
           <p class="nav justify-content-end">{{ user.get_username }} &nbsp; さんがログイン</p>
           {% endif %}
@@ -37,7 +38,7 @@
   <body>
     <header>
       <!-- Navbar content -->
-      <nav class="navbar navbar-expand-lg" data-bs-theme="dark" style="background-color: #e60012">
+      <nav class="navbar navbar-expand-lg" data-bs-theme="dark" style="background-color: #094067">
         <div class="container-fluid">
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -56,15 +57,14 @@
               </li>
             </ul>
             <form class="d-flex" role="search">
-
               {% if user.is_authenticated %}
-              <a class="btn btn-outline-light btn-custom" href="{% url 'logout' %}" role="button">ログアウト</a>
+              <a class="btn btn-outline-light btn-custom justify-content-end" href="{% url 'logout' %}">ログアウト</a>
               {% else %}
-              <a class="btn btn-outline-light btn-custom" href="{% url 'login' %}" role="button">ログイン</a>&nbsp;
-              <a class="btn btn-outline-light btn-custom" href="{% url 'signup' %}" role="button">サインアップ</a>
+              <a class="btn btn-outline-light btn-custom justify-content-end" href="{% url 'login' %}">ログイン</a>&nbsp;
+              <a class="btn btn-outline-light btn-custom justify-content-end" href="{% url 'signup' %}">サインアップ</a>
               {% endif %}
+            </form>
           </div>
-          </form>
         </div>
         </div>
       </nav>
@@ -78,7 +78,12 @@
       {% block footer %}
         <footer>
           {% load issue %}
-          <a href="{% get_return_link request %}"> <&nbsp; 戻る</a>
+          <!-- 戻るボタン -->
+          <a href="{% get_return_link request %}"> &nbsp; 
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+              <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0m3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5z"/>
+            </svg>
+          </a>
         </footer>
       {% endblock %}
     </div>
