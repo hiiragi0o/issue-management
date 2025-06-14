@@ -4,59 +4,48 @@
 
 {% block content %}
 
-<!-- 検索フォーム -->
-<form class="mt-2" id="search-form" action="" method="GET">
-  
-  <div class="p-3 mb-3 bg-secondary-subtle rounded">
-    <p>検索条件を指定して「検索する」ボタンを押してください。</p>
-  <label for="{{ search_form.key_word.id_for_label }}" class="label m-2">件名</label>
-    {{ search_form.key_word }}　
+<!-- 検索はこちらからボタン -->
+<p>
+  <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+    </svg>
+  検索はこちらから
+  </a>
+</p>
+<div class="collapse" id="collapseExample">
+  <div class="card card-body mb-3" border: 4px solid #094067;>
+    <!-- 検索フォーム -->
+    <form class="mt-2" id="search-form" action="" method="GET">
+      <p>検索条件を指定して「検索する」ボタンを押してください。</p>
+        <label for="{{ search_form.key_word.id_for_label }}" class="label m-2">件名</label>
+          {{ search_form.key_word }}　
 
-  <label for="period" class="label m-2">期限日</label>
-    {{ search_form.from_deadline }}&nbsp; 〜&nbsp; {{ search_form.to_deadline }}　</p>
+        <label for="period" class="label m-2">期限日</label>
+          {{ search_form.from_deadline }}&nbsp; 〜&nbsp; {{ search_form.to_deadline }}　</p>
 
-  
-    <label for="{{ search_form.progress.id_for_label }}" class="label m-2">進捗状況</label>
-    {{ search_form.progress }}　
+        <label for="{{ search_form.progress.id_for_label }}" class="label m-2">進捗状況</label>
+        {{ search_form.progress }}　
 
-    <label for="{{ search_form.type.id_for_label }}" class="label m-2">タイプ</label>
-    {{ search_form.type }}　
+        <label for="{{ search_form.type.id_for_label }}" class="label m-2">タイプ</label>
+        {{ search_form.type }}　
 
-    <label for="{{ search_form.person.id_for_label }}" class="label m-2">担当者</label>
-    {{ search_form.person }}　
+        <label for="{{ search_form.person.id_for_label }}" class="label m-2">担当者</label>
+        {{ search_form.person }}　
 
-
-    <div class="mt-2 d-grid gap-2 d-md-flex justify-content-md-end">
-          
-
-      <!-- 検索ボタン -->
-      <button class="btn btn-outline-primary" type="submit">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-        </svg>
-        検索する
-      </button>　
-      <!-- 検索条件クリアボタン -->
-      <a class="btn btn-outline-secondary btn-custom" href="{% url 'list' %}" role="button">検索条件クリア</a>
-    </div>
+        <div class="mt-2 d-grid gap-2 d-md-flex justify-content-md-end">
+          <!-- 検索ボタン -->
+          <button class="btn btn-outline-primary" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+            </svg>
+            検索する
+          </button>　
+          <!-- 検索条件クリアボタン -->
+          <a class="btn btn-outline-secondary btn-custom" href="{% url 'list' %}" role="button">検索条件クリア</a>
+        </div>
+    </form>
   </div>
-</form>
-
-<!-- メッセージを表示（トースト） -->
-<div class="toast-container position-fixed top-0 end-0 p-3">
-  {% if messages %}
-  {% for message in messages %}
-  <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true">
-      <div class="toast-header">
-          <strong class="me-auto">通知</strong>
-          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-      </div>
-      <div class="toast-body">
-          {{ message }}
-      </div>
-  </div>
-  {% endfor %}
-  {% endif %} 
 </div>
 
 {% block h1 %}課題リスト{% endblock h1 %}
@@ -81,7 +70,7 @@
         <td>
           <!-- 今日が期限日を過ぎている、かつ進捗状況が完了、対応不要　以外の時に赤く表示 -->
           {% if now_date > issues.deadline and issues.progress != 0 and issues.progress != 4 %} 
-            <span style="color: #e60012">{{ issues.deadline }}
+            <span style="color: #ef4565">{{ issues.deadline }}
               <!-- アイコン -->
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16" data-bs-toggle="tooltip" data-bs-title="期限日を過ぎています！">
                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
@@ -94,7 +83,11 @@
         <td>{{ issues.get_type_display }}</td>
         <td>{{ issues.person }}</td>
         <td>{{ issues.get_progress_display }}</td>
-        <td><a href="{% url 'detail' issues.id %}" class="btn btn-secondary">詳細</a></td>
+        <td><a href="{% url 'detail' issues.id %}" class="btn btn-simple btn-sm">詳細を見る
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+          </svg>
+        </a></td>
       </tr>
       {% endfor %}
     </tbody>
@@ -156,6 +149,22 @@
   </nav>
 </div>
 
+<!-- メッセージを表示（トースト） -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+  {% if messages %}
+  {% for message in messages %}
+  <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true">
+      <div class="toast-header">
+          <strong class="me-auto">通知</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+          {{ message }}
+      </div>
+  </div>
+  {% endfor %}
+  {% endif %} 
+</div>
 {% endblock %}
 
 {% block script %}
