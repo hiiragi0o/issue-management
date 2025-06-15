@@ -98,7 +98,7 @@ a:hover {
 }
 
 .card-body {
-    border: 3px solid #ef4565;
+    border: 1px solid #ef4565;
     /* 枠線の太さと色を指定 */
 }
 

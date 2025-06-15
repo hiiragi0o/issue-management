@@ -1,20 +1,19 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}Home｜issue-management{% endblock title %}
-
 {% block content %}
-
+{% block h1 %}課題リスト{% endblock h1 %}
 <!-- 検索はこちらからボタン -->
-<p>
+<div class="m-3">
   <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
       <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
     </svg>
   検索はこちらから
   </a>
-</p>
+</div>
 <div class="collapse" id="collapseExample">
-  <div class="card card-body mb-3" border: 4px solid #094067;>
+  <div class="card card-body m-3" border: 4px solid #094067;>
     <!-- 検索フォーム -->
     <form class="mt-2" id="search-form" action="" method="GET">
       <p>検索条件を指定して「検索する」ボタンを押してください。</p>
@@ -48,8 +47,7 @@
   </div>
 </div>
 
-{% block h1 %}課題リスト{% endblock h1 %}
-<div class="table-responsive">
+<div class="table-responsive m-3">
   <table class="table table-hover">
     <thead>
       <tr>
@@ -89,9 +87,19 @@
           </svg>
         </a></td>
       </tr>
+      {% empty %}
+      <tr>
+        <td colspan="7" class="text-center">現在、登録されている課題はありません。</td>
+      </tr>
       {% endfor %}
     </tbody>
   </table>
+</div>
+
+<div class="mt-3">
+  <p class="text-center">
+    <strong>全{{ page_obj.paginator.count }}件中 {{ page_obj.start_index }} 〜 {{ page_obj.end_index }} 件を表示中</strong>
+  </p>
 </div>
 
 <!-- ページネーション -->
@@ -149,6 +157,17 @@
   </nav>
 </div>
 
+<div class="mt-3">
+  <p> 
+    <strong>※注意事項</strong><br>
+    期限日を過ぎている課題は赤く表示されます。<br>
+    進捗状況が完了、対応不要の課題は期限日を過ぎても赤く表示されません。
+  </p>
+</div>
+<div class="mt-3">
+  ここでは私が総合病院で勤務時、実際に対応していた案件の概要を表示しています。
+</div>
+
 <!-- メッセージを表示（トースト） -->
 <div class="toast-container position-fixed top-0 end-0 p-3">
   {% if messages %}
@@ -165,6 +184,10 @@
   {% endfor %}
   {% endif %} 
 </div>
+{% endblock %}
+
+<!-- フッター 戻るボタンを表示しない -->
+{% block footer %}
 {% endblock %}
 
 {% block script %}
