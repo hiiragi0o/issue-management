@@ -7,15 +7,14 @@
 <div class="p-4">
     <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
-        <!-- issue の内容 -->
         <p>この課題を削除します。よろしいですか？</p>
         <div class="p-3 mt-3 rounded" style="background-color: #d8eefe;">
-        <p>課題No.：{{ object.id }}</p>
-        <p>件名：{{ object.title }}</p>
-        <p>内容：{{ object.contents }}</p>
+            <!-- issue の内容 -->
+            <p>課題No.：{{ object.id }}</p>
+            <p>件名：{{ object.title }}</p>
+            <p>内容：{{ object.contents }}</p>
         </div>
-        <button type="submit" class="btn btn-danger btn-custom mt-4">削除する</button>
+        <button type="submit" class="btn btn-danger mt-4">削除する</button>
     </form>
 </div>
 
