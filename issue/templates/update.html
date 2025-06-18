@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block title %}編集｜issue-management{% endblock title %}
-
 {% block content %}
 {% block h1 %}編集して「更新」ボタンを押してください。{% endblock h1 %}
 
@@ -17,19 +16,19 @@
                 <!-- 入力値があれば残す設定：value -->
                 <input id="title" type="text" class="form-control mb-3" name="title" value="{{ form.title.value|default_if_none:"" }}">
                 <!-- 空白の場合エラーを表示 -->
-                <b><font color="red">{{ form.title.errors }}</font></b>
+                <b><span class="text-danger">{{ form.title.errors }}</span></b>
 
                 <label for="contents">
                     内容：
                 </label>
                 <textarea id="contents" class="form-control mb-3" name="contents" rows="5">{{ form.contents.value|default_if_none:"" }}</textarea>
-                <b><font color="red">{{ form.contents.errors }}</font></b>
+                <b><span class="text-danger">{{ form.contents.errors }}</span></b>
 
                 <label for="deadline">
                     期限日：
                 </label>
                 <input required id="deadline" type="date" class="form-control mb-3" name="deadline" value="{{ form.deadline.value|date:'Y-m-d'|default_if_none:"" }}">
-                <b><font color="red">{{ form.deadline.errors }}</font></b>
+                <b><span class="text-danger">{{ form.deadline.errors }}</span></b>
 
                 <label for="type">
                     タイプ：
@@ -39,7 +38,7 @@
                         <option value="{{ choice.0 }}" {% if choice.0 == form.type.value %}selected{% endif %}>{{ choice.1 }}</option>
                     {% endfor %}
                 </select>
-                <b><font color="red">{{ form.type.errors }}</font></b>
+                <b><span class="text-danger">{{ form.type.errors }}</span></b>
 
                 <label for="person">
                     担当者：
@@ -49,7 +48,7 @@
                         <option value="{{ choice.0 }}" {% if choice.0 == form.person.value %}selected{% endif %}>{{ choice.1 }}</option>
                     {% endfor %}
                 </select>
-                <b><font color="red">{{ form.person.errors }}</font></b>
+                <b><span class="text-danger">{{ form.person.errors }}</span></b>
 
                 <label for="progress">
                     進捗状況：
@@ -59,13 +58,13 @@
                         <option value="{{ choice.0 }}" {% if choice.0 == form.progress.value %}selected{% endif %}>{{ choice.1 }}</option>
                     {% endfor %}
                 </select>
-                <b><font color="red">{{ form.progress.errors }}</font></b>
+                <b><span class="text-danger">{{ form.progress.errors }}</span></b>
 
                 <label for="budget">
                     予算：
                 </label>
                 <input id="budget" type="number" class="form-control mb-3" name="budget" value="{{ form.budget.value|default_if_none:"" }}">
-                <b><font color="red">{{ form.budget.errors }}</font></b>
+                <b><span class="text-danger">{{ form.budget.errors }}</span></b>
 
                 <div>
                     <button type="submit" class="btn btn-danger mt-4">更新する</button>
