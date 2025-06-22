@@ -70,6 +70,21 @@ a:hover {
     color: #094067;
 }
 
+.btn-nav {
+    background-color: transparent;
+    border: none;
+    color: #ffffff;
+    padding: 10px 20px;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.btn-nav:hover {
+    background-color: none;
+    color: #c4d1f7;
+    font-weight: bold;
+}
+
 /* ボタン */
 .btn-round {
     padding: 3px 10px;
@@ -91,14 +106,14 @@ a:hover {
 .card {
     color: #094067;
     /* カードの文字色 */
-    background-color: #f0f4f8;
+    background-color: #d8eefe;
     /* カードの背景色 */
     border-radius: 10px;
     /* カードの角を丸くする */
 }
 
 .card-body {
-    border: 1px solid #ef4565;
+    border: 1px solid #094067;
     /* 枠線の太さと色を指定 */
 }
 
@@ -108,6 +123,12 @@ a:hover {
     /* テーブルの文字色 */
 }
 
+.container {
+    max-width: 90%;
+    /* コンテナの最大幅を80%に設定 */
+    margin: 2rem auto;
+    /* 上下のマージンを2rem、左右は自動で中央寄せ */
+}
 
 /* ページネーションのスタイル */
 .page-link {
@@ -127,4 +148,62 @@ a:hover {
     /* アクティブなページの枠線色 */
     color: white;
     /* アクティブなページの文字色 */
+}
+
+/* 認証画面のスタイル */
+.auth-page {
+    background: linear-gradient(45deg, #d0e5ff, #5483c5);
+    font-family: 'Helvetica Neue', sans-serif;
+    color: #fff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-container {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.auth-page input {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+}
+
+.auth-page input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+    /* プレースホルダーの色を薄く設定 */
+}
+
+.auth-page input:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(61, 169, 252, 0.5);
+}
+
+.auth-page button {
+    width: 100%;
+    padding: 15px;
+    background-color: #094067;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.auth-page button:hover {
+    background-color: #072f4f;
+    /* ホバー時の色を変更 */
 }
