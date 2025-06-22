@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
+
 {% load static %}
+
 {% block title %}Home｜issue-management{% endblock title %}
+
 {% block content %}
+
 {% block h1 %}課題リスト{% endblock h1 %}
+
+
 <!-- 検索はこちらからボタン -->
-<div class="m-3">
+<div class="pt-3">
   <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
       <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
@@ -13,41 +19,85 @@
   </a>
 </div>
 <div class="collapse" id="collapseExample">
-  <div class="card card-body m-3">
+  <div class="card card-body mt-3">
     <!-- 検索フォーム -->
-    <form class="mt-2" id="search-form" action="" method="GET">
+    <form class="row g-3" id="search-form" action="" method="GET">
       <p>検索条件を指定して「検索する」ボタンを押してください。</p>
-        <label for="{{ search_form.key_word.id_for_label }}" class="label m-2">件名</label>
-          {{ search_form.key_word }}　
+        <!-- 件名 -->
+        <div class="col-md-6">
+          <label for="{{ search_form.key_word.id_for_label }}" class="form-label">件名</label>
+          <input type="text" name="{{ search_form.key_word.name }}" class="form-control" autocomplete="off" placeholder="キーワード" id="{{ search_form.key_word.id_for_label }}">
+        </div>
 
-        <label for="period" class="label m-2">期限日</label>
-          {{ search_form.from_deadline }}&nbsp; 〜&nbsp; {{ search_form.to_deadline }}　</p>
+        <!-- 改行 -->
+        <div class="w-100"></div>
 
-        <label for="{{ search_form.progress.id_for_label }}" class="label m-2">進捗状況</label>
-        {{ search_form.progress }}　
+        <!-- 期限日 -->
+        <div class="col-md-6">
+          <label for="period" class="form-label">期限日</label>
+          <div class="d-flex align-items-center">
+            <input type="date" name="{{ search_form.from_deadline.name }}" class="form-control" id="{{ search_form.from_deadline.id_for_label }}">
+            <span class="mx-2">〜</span>
+            <input type="date" name="{{ search_form.to_deadline.name }}" class="form-control" id="i{{ search_form.to_deadline.id_for_label }}">
+          </div>
+        </div>
 
-        <label for="{{ search_form.type.id_for_label }}" class="label m-2">タイプ</label>
-        {{ search_form.type }}　
+        <!-- 改行 -->
+        <div class="w-100"></div>
 
-        <label for="{{ search_form.person.id_for_label }}" class="label m-2">担当者</label>
-        {{ search_form.person }}　
+        <!-- 進捗状況 -->
+        <div class="col-md-4">
+        <label for="{{ search_form.progress.id_for_label }}" class="form-label">進捗状況</label>
+        <select name="{{ search_form.progress.name }}" class="form-control" id="{{ search_form.progress.id_for_label }}">
+          <!-- 選択肢の値とラベル -->
+          {% for value, label in search_form.progress.field.choices %}
+            <option value="{{ value }}">
+              {{ label }}
+            </option>
+          {% endfor %}
+        </select>
+        </div>
+
+        <!-- タイプ -->
+        <div class="col-md-4">
+        <label for="{{ search_form.type.id_for_label }}" class="form-label">タイプ</label>
+        <select name="{{ search_form.type.name }}" class="form-control" id="{{ search_form.type.id_for_label }}">
+          {% for value, label in search_form.type.field.choices %}
+            <option value="{{ value }}">
+              {{ label }}
+            </option>
+          {% endfor %}
+        </select>
+        </div>
+
+        <!-- 担当者 -->
+        <div class="col-md-4">
+        <label for="{{ search_form.person.id_for_label }}" class="form-label">担当者</label>
+        <select name="{{ search_form.person.name }}" class="form-control" id="{{ search_form.person.id_for_label }}">
+          {% for value, label in search_form.person.field.choices %}
+            <option value="{{ value }}">
+              {{ label }}
+            </option>
+          {% endfor %}
+        </select>
+        </div>
 
         <div class="mt-2 d-grid gap-2 d-md-flex justify-content-md-end">
           <!-- 検索ボタン -->
-          <button class="btn btn-outline-primary" type="submit">
+          <button class="btn btn-secondary btn-sm mt-3" type="submit">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
               <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
             </svg>
             検索する
           </button>　
           <!-- 検索条件クリアボタン -->
-          <a class="btn btn-outline-secondary" href="{% url 'list' %}" role="button">検索条件クリア</a>
+          <a class="btn btn-danger btn-sm mt-3" href="{% url 'list' %}" role="button">検索条件クリア</a>
         </div>
     </form>
   </div>
 </div>
 
-<div class="table-responsive m-3">
+<div class="table-responsive">
   <table class="table table-hover">
     <thead>
       <tr>
