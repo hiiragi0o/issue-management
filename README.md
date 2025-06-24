@@ -2,7 +2,11 @@
  業務で発生する案件の進捗を、複数名で効率的に管理するためのWebアプリケーションです。 <br >
  ユーザーはアカウントを作成し、同一案件に対してコメントやステータス更新を通じて共同管理が可能です。 <br >
 
- 
+<img src="https://github.com/user-attachments/assets/8a738383-21c1-4472-b38f-d9bbe91f618d" width="600">
+
+<kbd><img src="https://github.com/user-attachments/assets/d036f7d6-70b6-43e1-a0c7-f4a25c54e8f4" width="1000"></kbd>
+
+<kbd><img src="https://github.com/user-attachments/assets/86d05a99-9957-4339-b945-0304750aad6a" width="800"></kbd>
 
 # URL
  https://issue-management.onrender.com <br >
