@@ -1,108 +1,110 @@
 {% extends 'base.html' %}
+
 {% block title %}issue-management｜新規登録{% endblock title %}
 
 {% block content %}
-{% block h1 %}新規登録{% endblock h1 %}
 
-<!-- issue の内容を登録 -->
-<div class="container">
-    <p>課題No. は自動で付与されます。登録後、課題の詳細画面に遷移します。</p>
+    {% block h1 %}新規登録{% endblock h1 %}
 
-    <div class="p-5 rounded" style="background-color: #d8eefe;">
-        <form method="POST" class="row g-3">
-            {% csrf_token %}
-                <!-- 件名 -->
-                <div class="col-md-12">
-                <label for="title">
-                    件名：
-                </label>
-                <!-- 入力値があれば残す設定：value -->
-                <input id="title" type="text" class="form-control" name="title" value="{{ form.title.value|default_if_none:"" }}">
-                <!-- 空白の場合エラーを表示 -->
-                <b><span class="text-danger">{{ form.title.errors }}</span></b>
-                </div>
+    <!-- issue の内容を登録 -->
+    <div class="container">
+        <p>課題No. は自動で付与されます。登録後、課題の詳細画面に遷移します。</p>
 
-                <!-- 内容 -->
-                <div class="col-md-12">
-                <label for="contents">
-                    内容：
-                </label>
-                <textarea id="contents" class="form-control" name="contents" rows="5">{{ form.contents.value|default_if_none:"" }}</textarea>
-                <b><span class="text-danger">{{ form.contents.errors }}</span></b>
-                </div>
-
-                <!-- 期限日 -->
-                <div class="col-md-3">
-                    <label for="deadline">
-                    期限日：
-                </label>
-                <input required id="deadline" type="date" class="form-control" name="deadline" value="{{ form.deadline.value|default_if_none:"" }}">
-                <b><span class="text-danger">{{ form.deadline.errors }}</span></b>
-                </div>
-
-                <!-- 改行 -->
-                <div class="w-100"></div>
-
-                <!-- タイプ、担当者、進捗状況、予算 -->
-                <div class="col-sm">
-                    <label for="type">
-                    タイプ：
+        <div class="p-5 rounded" style="background-color: #d8eefe;">
+            <form method="POST" class="row g-3">
+                {% csrf_token %}
+                    <!-- 件名 -->
+                    <div class="col-md-12">
+                    <label for="title">
+                        件名：
                     </label>
-                    <select id="type" class="form-control" name="type">
-                        {% for choice in form.type.field.choices %}
-                            <option value="{{ choice.0 }}" {% if choice.0 == form.type.value %}selected{% endif %}>{{ choice.1 }}</option>
+                    <!-- 入力値があれば残す設定：value -->
+                    <input id="title" type="text" class="form-control" name="title" value="{{ form.title.value|default_if_none:"" }}">
+                    <!-- 空白の場合エラーを表示 -->
+                    <b><span class="text-danger">{{ form.title.errors }}</span></b>
+                    </div>
+
+                    <!-- 内容 -->
+                    <div class="col-md-12">
+                    <label for="contents">
+                        内容：
+                    </label>
+                    <textarea id="contents" class="form-control" name="contents" rows="5">{{ form.contents.value|default_if_none:"" }}</textarea>
+                    <b><span class="text-danger">{{ form.contents.errors }}</span></b>
+                    </div>
+
+                    <!-- 期限日 -->
+                    <div class="col-md-3">
+                        <label for="deadline">
+                        期限日：
+                    </label>
+                    <input required id="deadline" type="date" class="form-control" name="deadline" value="{{ form.deadline.value|default_if_none:"" }}">
+                    <b><span class="text-danger">{{ form.deadline.errors }}</span></b>
+                    </div>
+
+                    <!-- 改行 -->
+                    <div class="w-100"></div>
+
+                    <!-- タイプ、担当者、進捗状況、予算 -->
+                    <div class="col-sm">
+                        <label for="type">
+                        タイプ：
+                        </label>
+                        <select id="type" class="form-control" name="type">
+                            {% for choice in form.type.field.choices %}
+                                <option value="{{ choice.0 }}" {% if choice.0 == form.type.value %}selected{% endif %}>{{ choice.1 }}</option>
+                            {% endfor %}
+                        </select>
+                        <b><span class="text-danger">{{ form.type.errors }}</span></b>
+                    </div>
+
+                    <div class="col-sm">
+                        <label for="person">
+                        担当者：
+                    </label>
+                    <select id="person" class="form-control" name="person">
+                        {% for choice in form.person.field.choices %}
+                            <option value="{{ choice.0 }}" {% if choice.0 == form.person.value %}selected{% endif %}>{{ choice.1 }}</option>
                         {% endfor %}
                     </select>
-                    <b><span class="text-danger">{{ form.type.errors }}</span></b>
-                </div>
+                    <b><span class="text-danger">{{ form.person.errors }}</span></b>
+                    </div>
 
-                <div class="col-sm">
-                    <label for="person">
-                    担当者：
-                </label>
-                <select id="person" class="form-control" name="person">
-                    {% for choice in form.person.field.choices %}
-                        <option value="{{ choice.0 }}" {% if choice.0 == form.person.value %}selected{% endif %}>{{ choice.1 }}</option>
-                    {% endfor %}
-                </select>
-                <b><span class="text-danger">{{ form.person.errors }}</span></b>
-                </div>
+                    <div class="col-sm">
+                        <label for="progress">
+                        進捗状況：
+                    </label>
+                    <select id="progress" class="form-control" name="progress">
+                        {% for choice in form.progress.field.choices %}
+                            <option value="{{ choice.0 }}" {% if choice.0 == form.progress.value %}selected{% endif %}>{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                    <b><span class="text-danger">{{ form.progress.errors }}</span></b>
+                    </div>
 
-                <div class="col-sm">
-                    <label for="progress">
-                    進捗状況：
-                </label>
-                <select id="progress" class="form-control" name="progress">
-                    {% for choice in form.progress.field.choices %}
-                        <option value="{{ choice.0 }}" {% if choice.0 == form.progress.value %}selected{% endif %}>{{ choice.1 }}</option>
-                    {% endfor %}
-                </select>
-                <b><span class="text-danger">{{ form.progress.errors }}</span></b>
-                </div>
+                    <div class="col-sm">
+                        <label for="budget">
+                        予算：
+                    </label>
+                    <input id="budget" type="number" class="form-control" name="budget" value="{{ form.budget.value|default_if_none:"" }}">
+                    <b><span class="text-danger">{{ form.budget.errors }}</span></b>
+                    </div>
 
-                <div class="col-sm">
-                    <label for="budget">
-                    予算：
-                </label>
-                <input id="budget" type="number" class="form-control" name="budget" value="{{ form.budget.value|default_if_none:"" }}">
-                <b><span class="text-danger">{{ form.budget.errors }}</span></b>
-                </div>
+                    <!-- 改行 -->
+                    <div class="w-100"></div>
 
-                <!-- 改行 -->
-                <div class="w-100"></div>
+                    <label for="user">
+                        作成者：
+                    </label>
+                    {% if user.is_authenticated %}
+                        <p>{{ user.get_username }} &nbsp; さん（現在ログイン中のユーザー）</p>
+                    {% endif %}
 
-                <label for="user">
-                    作成者：
-                </label>
-                {% if user.is_authenticated %}
-                    <p>{{ user.get_username }} &nbsp; さん（現在ログイン中のユーザー）</p>
-                {% endif %}
-
-                <!-- 登録ボタン -->
-                <div align="right">
-                    <button type="submit" class="btn btn-danger">課題を登録する</button>
-                </div>
-        </form>
+                    <!-- 登録ボタン -->
+                    <div align="right">
+                        <button type="submit" class="btn btn-danger">課題を登録する</button>
+                    </div>
+            </form>
+        </div>
     </div>
-</div>
 {% endblock %}

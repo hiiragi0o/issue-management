@@ -6,240 +6,238 @@
 
 {% block content %}
 
-{% block h1 %}課題リスト{% endblock h1 %}
+  {% block h1 %}課題リスト{% endblock h1 %}
 
-
-<!-- 検索はこちらからボタン -->
-<div class="pt-3">
-  <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-      <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-    </svg>
-  検索はこちらから
-  </a>
-</div>
-<div class="collapse" id="collapseExample">
-  <div class="card card-body mt-3">
-    <!-- 検索フォーム -->
-    <form class="row g-3" id="search-form" action="" method="GET">
-      <p>検索条件を指定して「検索する」ボタンを押してください。</p>
-        <!-- 件名 -->
-        <div class="col-md-6">
-          <label for="{{ search_form.key_word.id_for_label }}" class="form-label">件名</label>
-          <input type="text" name="{{ search_form.key_word.name }}" class="form-control" autocomplete="off" placeholder="キーワード" id="{{ search_form.key_word.id_for_label }}">
-        </div>
-
-        <!-- 改行 -->
-        <div class="w-100"></div>
-
-        <!-- 期限日 -->
-        <div class="col-md-6">
-          <label for="period" class="form-label">期限日</label>
-          <div class="d-flex align-items-center">
-            <input type="date" name="{{ search_form.from_deadline.name }}" class="form-control" id="{{ search_form.from_deadline.id_for_label }}">
-            <span class="mx-2">〜</span>
-            <input type="date" name="{{ search_form.to_deadline.name }}" class="form-control" id="i{{ search_form.to_deadline.id_for_label }}">
-          </div>
-        </div>
-
-        <!-- 改行 -->
-        <div class="w-100"></div>
-
-        <!-- 進捗状況 -->
-        <div class="col-md-4">
-        <label for="{{ search_form.progress.id_for_label }}" class="form-label">進捗状況</label>
-        <select name="{{ search_form.progress.name }}" class="form-control" id="{{ search_form.progress.id_for_label }}">
-          <!-- 選択肢の値とラベル -->
-          {% for value, label in search_form.progress.field.choices %}
-            <option value="{{ value }}">
-              {{ label }}
-            </option>
-          {% endfor %}
-        </select>
-        </div>
-
-        <!-- タイプ -->
-        <div class="col-md-4">
-        <label for="{{ search_form.type.id_for_label }}" class="form-label">タイプ</label>
-        <select name="{{ search_form.type.name }}" class="form-control" id="{{ search_form.type.id_for_label }}">
-          {% for value, label in search_form.type.field.choices %}
-            <option value="{{ value }}">
-              {{ label }}
-            </option>
-          {% endfor %}
-        </select>
-        </div>
-
-        <!-- 担当者 -->
-        <div class="col-md-4">
-        <label for="{{ search_form.person.id_for_label }}" class="form-label">担当者</label>
-        <select name="{{ search_form.person.name }}" class="form-control" id="{{ search_form.person.id_for_label }}">
-          {% for value, label in search_form.person.field.choices %}
-            <option value="{{ value }}">
-              {{ label }}
-            </option>
-          {% endfor %}
-        </select>
-        </div>
-
-        <div class="mt-2 d-grid gap-2 d-md-flex justify-content-md-end">
-          <!-- 検索ボタン -->
-          <button class="btn btn-secondary btn-sm mt-3" type="submit">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-            </svg>
-            検索する
-          </button>　
-          <!-- 検索条件クリアボタン -->
-          <a class="btn btn-danger btn-sm mt-3" href="{% url 'list' %}" role="button">検索条件クリア</a>
-        </div>
-    </form>
+  <!-- 検索はこちらからボタン -->
+  <div class="pt-3">
+    <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+      </svg>
+    検索はこちらから
+    </a>
   </div>
-</div>
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body mt-3">
+      <!-- 検索フォーム -->
+      <form class="row g-3" id="search-form" action="" method="GET">
+        <p>検索条件を指定して「検索する」ボタンを押してください。</p>
+          <!-- 件名 -->
+          <div class="col-md-6">
+            <label for="{{ search_form.key_word.id_for_label }}" class="form-label">件名</label>
+            <input type="text" name="{{ search_form.key_word.name }}" class="form-control" autocomplete="off" placeholder="キーワード" id="{{ search_form.key_word.id_for_label }}">
+          </div>
 
-<div class="table-responsive">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">件名</th>
-        <th scope="col">期限日</th>
-        <th scope="col">タイプ</th>
-        <th scope="col">担当者</th>
-        <th scope="col">進捗状況</th>
-        <th scope="col"></th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for issues in object_list %}
-        <tr class="align-middle">
-          <th scope="row">{{ issues.id }}</th>
-          <td>{{ issues.title }}</td>
-          <td>
-            <!-- 今日が期限日を過ぎている、かつ進捗状況が完了、対応不要　以外の時に赤く表示 -->
-            {% if now_date > issues.deadline and issues.progress != 0 and issues.progress != 4 %} 
-              <span style="color: #ef4565">{{ issues.deadline }}
-                <!-- アイコン -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16" data-bs-toggle="tooltip" data-bs-title="期限日を過ぎています！">
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                  <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
-                </svg>
-              </span>
-            {% else %}
-              {{ issues.deadline }}
-            {% endif %}
-          </td>
-          <td>{{ issues.get_type_display }}</td>
-          <td>{{ issues.person }}</td>
-          <td>{{ issues.get_progress_display }}</td>
-          <td><a href="{% url 'detail' issues.id %}" class="btn btn-simple btn-sm">詳細を見る
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
-            </svg>
-          </a></td>
-        </tr>
-      {% empty %}
+          <!-- 改行 -->
+          <div class="w-100"></div>
+
+          <!-- 期限日 -->
+          <div class="col-md-6">
+            <label for="period" class="form-label">期限日</label>
+            <div class="d-flex align-items-center">
+              <input type="date" name="{{ search_form.from_deadline.name }}" class="form-control" id="{{ search_form.from_deadline.id_for_label }}">
+              <span class="mx-2">〜</span>
+              <input type="date" name="{{ search_form.to_deadline.name }}" class="form-control" id="i{{ search_form.to_deadline.id_for_label }}">
+            </div>
+          </div>
+
+          <!-- 改行 -->
+          <div class="w-100"></div>
+
+          <!-- 進捗状況 -->
+          <div class="col-md-4">
+          <label for="{{ search_form.progress.id_for_label }}" class="form-label">進捗状況</label>
+          <select name="{{ search_form.progress.name }}" class="form-control" id="{{ search_form.progress.id_for_label }}">
+            <!-- 選択肢の値とラベル -->
+            {% for value, label in search_form.progress.field.choices %}
+              <option value="{{ value }}">
+                {{ label }}
+              </option>
+            {% endfor %}
+          </select>
+          </div>
+
+          <!-- タイプ -->
+          <div class="col-md-4">
+          <label for="{{ search_form.type.id_for_label }}" class="form-label">タイプ</label>
+          <select name="{{ search_form.type.name }}" class="form-control" id="{{ search_form.type.id_for_label }}">
+            {% for value, label in search_form.type.field.choices %}
+              <option value="{{ value }}">
+                {{ label }}
+              </option>
+            {% endfor %}
+          </select>
+          </div>
+
+          <!-- 担当者 -->
+          <div class="col-md-4">
+          <label for="{{ search_form.person.id_for_label }}" class="form-label">担当者</label>
+          <select name="{{ search_form.person.name }}" class="form-control" id="{{ search_form.person.id_for_label }}">
+            {% for value, label in search_form.person.field.choices %}
+              <option value="{{ value }}">
+                {{ label }}
+              </option>
+            {% endfor %}
+          </select>
+          </div>
+
+          <div class="mt-2 d-grid gap-2 d-md-flex justify-content-md-end">
+            <!-- 検索ボタン -->
+            <button class="btn btn-secondary btn-sm mt-3" type="submit">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+              </svg>
+              検索する
+            </button>　
+            <!-- 検索条件クリアボタン -->
+            <a class="btn btn-danger btn-sm mt-3" href="{% url 'list' %}" role="button">検索条件クリア</a>
+          </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
         <tr>
-          <td colspan="7" class="text-center">現在、登録されている課題はありません。</td>
+          <th scope="col">#</th>
+          <th scope="col">件名</th>
+          <th scope="col">期限日</th>
+          <th scope="col">タイプ</th>
+          <th scope="col">担当者</th>
+          <th scope="col">進捗状況</th>
+          <th scope="col"></th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
+      </thead>
+      <tbody>
+        {% for issues in object_list %}
+          <tr class="align-middle">
+            <th scope="row">{{ issues.id }}</th>
+            <td>{{ issues.title }}</td>
+            <td>
+              <!-- 今日が期限日を過ぎている、かつ進捗状況が完了、対応不要　以外の時に赤く表示 -->
+              {% if now_date > issues.deadline and issues.progress != 0 and issues.progress != 4 %} 
+                <span style="color: #ef4565">{{ issues.deadline }}
+                  <!-- アイコン -->
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-circle" viewBox="0 0 16 16" data-bs-toggle="tooltip" data-bs-title="期限日を過ぎています！">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                    <path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z"/>
+                  </svg>
+                </span>
+              {% else %}
+                {{ issues.deadline }}
+              {% endif %}
+            </td>
+            <td>{{ issues.get_type_display }}</td>
+            <td>{{ issues.person }}</td>
+            <td>{{ issues.get_progress_display }}</td>
+            <td><a href="{% url 'detail' issues.id %}" class="btn btn-simple btn-sm">詳細を見る
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+              </svg>
+            </a></td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="7" class="text-center">現在、登録されている課題はありません。</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
-<div class="mt-3">
-  <p class="text-center">
-    <strong>全{{ page_obj.paginator.count }}件中 {{ page_obj.start_index }} 〜 {{ page_obj.end_index }} 件を表示中</strong>
-  </p>
-</div>
+  <div class="mt-3">
+    <p class="text-center">
+      <strong>全{{ page_obj.paginator.count }}件中 {{ page_obj.start_index }} 〜 {{ page_obj.end_index }} 件を表示中</strong>
+    </p>
+  </div>
 
-<!-- ページネーション -->
-<div class="mt-4">
-  <nav aria-label="Search results pages">
-    {% load issue %}
-    <ul class="pagination justify-content-center">
-      <!-- 最初へ／前へ -->
-      {% if page_obj.has_previous %}
-        <li class="page-item">
-          <a class="page-link" href="?{%  url_replace request 'page' 1 %}">First</a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="?{%  url_replace request 'page' page_obj.previous_page_number %}">&laquo;</a>
-        </li>
-      {% else %}
-        <li class="page-item disabled">
-          <a class="page-link">First</a>
-        </li>
-        <li class="page-item disabled">
-          <a class="page-link">&laquo;</a>
-        </li>
-      {% endif %}
-
-      <!-- ページリンク -->
-      {% for num in page_obj.paginator.page_range %}
-        {% if page_obj.number == num %}
-          <li class="page-item active" aria-current="page">
-            <a class="page-link">{{ num }}</a>
+  <!-- ページネーション -->
+  <div class="mt-4">
+    <nav aria-label="Search results pages">
+      {% load issue %}
+      <ul class="pagination justify-content-center">
+        <!-- 最初へ／前へ -->
+        {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?{%  url_replace request 'page' 1 %}">First</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?{%  url_replace request 'page' page_obj.previous_page_number %}">&laquo;</a>
           </li>
         {% else %}
-          <li class="page-item">
-            <a class="page-link" href="?{%  url_replace request 'page' num %}">{{ num }}</a>
+          <li class="page-item disabled">
+            <a class="page-link">First</a>
+          </li>
+          <li class="page-item disabled">
+            <a class="page-link">&laquo;</a>
           </li>
         {% endif %}
+
+        <!-- ページリンク -->
+        {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num %}
+            <li class="page-item active" aria-current="page">
+              <a class="page-link">{{ num }}</a>
+            </li>
+          {% else %}
+            <li class="page-item">
+              <a class="page-link" href="?{%  url_replace request 'page' num %}">{{ num }}</a>
+            </li>
+          {% endif %}
+        {% endfor %}
+
+        <!-- 次へ／最後へ -->
+        {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?{%  url_replace request 'page' page_obj.next_page_number %}">&raquo;</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?{%  url_replace request 'page' page_obj.paginator.num_pages %}">Last</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+            <a class="page-link">&raquo;</a>
+          </li>
+          <li class="page-item disabled">
+            <a class="page-link">Last</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+
+  <div class="mt-3">
+    <p> 
+      <strong>※注意事項</strong><br>
+      期限日を過ぎている課題は赤く表示されます。<br>
+      進捗状況が完了、対応不要の課題は期限日を過ぎても赤く表示されません。
+    </p>
+  </div>
+  <div class="mt-3">
+    ここでは私が総合病院で勤務時、実際に対応していた案件の概要を表示しています。
+  </div>
+
+  <!-- メッセージを表示（トースト） -->
+  <div class="toast-container position-fixed top-0 end-0 p-3">
+    {% if messages %}
+      {% for message in messages %}
+        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true">
+          <div class="toast-header">
+            <strong class="me-auto">通知</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+            {{ message }}
+          </div>
+        </div>
       {% endfor %}
-
-      <!-- 次へ／最後へ -->
-      {% if page_obj.has_next %}
-        <li class="page-item">
-          <a class="page-link" href="?{%  url_replace request 'page' page_obj.next_page_number %}">&raquo;</a>
-        </li>
-        <li class="page-item">
-          <a class="page-link" href="?{%  url_replace request 'page' page_obj.paginator.num_pages %}">Last</a>
-        </li>
-      {% else %}
-        <li class="page-item disabled">
-          <a class="page-link">&raquo;</a>
-        </li>
-        <li class="page-item disabled">
-          <a class="page-link">Last</a>
-        </li>
-      {% endif %}
-    </ul>
-  </nav>
-</div>
-
-<div class="mt-3">
-  <p> 
-    <strong>※注意事項</strong><br>
-    期限日を過ぎている課題は赤く表示されます。<br>
-    進捗状況が完了、対応不要の課題は期限日を過ぎても赤く表示されません。
-  </p>
-</div>
-<div class="mt-3">
-  ここでは私が総合病院で勤務時、実際に対応していた案件の概要を表示しています。
-</div>
-
-<!-- メッセージを表示（トースト） -->
-<div class="toast-container position-fixed top-0 end-0 p-3">
-  {% if messages %}
-  {% for message in messages %}
-    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true">
-      <div class="toast-header">
-        <strong class="me-auto">通知</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-      </div>
-      <div class="toast-body">
-        {{ message }}
-      </div>
-    </div>
-  {% endfor %}
-  {% endif %} 
-</div>
+    {% endif %} 
+  </div>
 {% endblock %}
 
 <!-- フッター 戻るボタンを表示しない -->
-{% block footer %}
-{% endblock %}
+{% block footer %}{% endblock %}
 
 {% block script %}
   <script src="{% static "javascript/toast.js" %}"></script>
