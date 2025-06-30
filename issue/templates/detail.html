@@ -1,201 +1,204 @@
 {% extends 'base.html' %}
+
 {% load static %}
+
 {% block title %}詳細｜issue-management{% endblock title %}
 
 {% block content %}
-{% block h1 %}詳細{% endblock h1 %}
 
-<!-- 背景色を変更 -->
-<style>
-    body {
-    background-color: #d8eefe; /* 薄い水色 */
-    }
-</style>
+    {% block h1 %}詳細{% endblock h1 %}
 
-<!-- issue の内容 -->
-<div class="p-3 mt-3 bg-white rounded">
-    <h2 class="h4" style="color: #094067;">No. {{ object.id }}　{{ object.title }}</h2><hr>
-        <div style="color: #094067;"><small>
-            期限日：&nbsp; <strong> {{ object.deadline }} </strong>　進捗状況：&nbsp; <strong> {{ object.get_progress_display }} </strong>
-                    　タイプ：&nbsp; <strong>{{ object.get_type_display }}</strong>
-                    　予算：&nbsp; <strong>{{ object.budget|default_if_none:"--" }} 円</strong>
-                    　担当者：&nbsp; <strong>{{ object.person }}</strong>
-        </small></div>
-        <hr>
-        <p class="mb-4">{{ object.contents }}</p>
+    <!-- 背景色を変更 -->
+    <style>
+        body {
+        background-color: #d8eefe; /* 薄い水色 */
+        }
+    </style>
 
-        <!-- ボタン -->
-        <div class="mt-4 d-grid gap-2 d-md-flex justify-content-md-end">
-            <small>更新日：&nbsp; <strong>{{ object.create_date }}　</strong></small>
-            <a class="btn btn-primary" role="button" id="btn" data-bs-toggle="tooltip" data-bs-title="リンクをコピーして共有">共有</a>
-            <a class="btn btn-secondary" href="{% url 'update' object.id %}" role="button" data-bs-toggle="tooltip" data-bs-title="課題の内容を編集">編集</a>
-            <a class="btn btn-danger" href="{% url 'delete' object.id %}" role="button" data-bs-toggle="tooltip" data-bs-title="この課題を削除">削除</a>
-        </div>
-</div>
+    <!-- issue の内容 -->
+    <div class="p-3 mt-3 bg-white rounded">
+        <h2 class="h4" style="color: #094067;">No. {{ object.id }}　{{ object.title }}</h2><hr>
+            <div style="color: #094067;"><small>
+                期限日：&nbsp; <strong> {{ object.deadline }} </strong>　進捗状況：&nbsp; <strong> {{ object.get_progress_display }} </strong>
+                        　タイプ：&nbsp; <strong>{{ object.get_type_display }}</strong>
+                        　予算：&nbsp; <strong>{{ object.budget|default_if_none:"--" }} 円</strong>
+                        　担当者：&nbsp; <strong>{{ object.person }}</strong>
+            </small></div>
+            <hr>
+            <p class="mb-4">{{ object.contents }}</p>
 
-<!-- 添付ファイル  -->
-<br>
-<div class="card" style="background-color: white;">
-    <div class="card-header">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-folder2" viewBox="0 0 16 16">
-            <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v7a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 12.5zM2.5 3a.5.5 0 0 0-.5.5V6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3zM14 7H2v5.5a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5z"/>
-        </svg>
-        添付ファイル　
-        <button type="button" class="btn-round" data-bs-toggle="tooltip" data-bs-title="ファイルをアップロードできます"
-            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-            <a href="{% url 'upload' object.id %}" >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-upload-fill" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M8 0a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 4.095 0 5.555 0 7.318 0 9.366 1.708 11 3.781 11H7.5V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11h4.188C14.502 11 16 9.57 16 7.773c0-1.636-1.242-2.969-2.834-3.194C12.923 1.999 10.69 0 8 0m-.5 14.5V11h1v3.5a.5.5 0 0 1-1 0"/>
-                </svg>
-                ファイルをアップロード
-            </a>
-        </button>
-    </div>
-    <ul class="list-group list-group-flush">
-        {% for file in object.uploaded_files.all %}
-            <li class="list-group-item">
-                <a href="{{ file.file.url }}">{{ file.filename }}</a>　<small>{{ file.uploaded_at }}</small>
-                <p class="text-end blockquote-footer mb-0">ファイルサイズ：{{ file.file_size }} KB </p>
-            </li>
-        {% empty %}
-            <li class="list-group-item text-muted">
-                アップロードされたファイルはありません。
-            </li>
-        {% endfor %}
-    </ul>
-</div>
-
-<!-- メッセージを表示（トースト） -->
-<div class="toast-container position-fixed top-0 end-0 p-3">
-    {% if messages %}
-    {% for message in messages %}
-    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true">
-        <div class="toast-header">
-            <strong class="me-auto">通知</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-        <div class="toast-body">
-            {{ message }}
-        </div>
-    </div>
-    {% endfor %}
-    {% endif %} 
-</div>    
-
-<!-- クリップボードJSでコピーする内容 -->
-<div id="txt" style="display:none;">
-    <p>アプリにログインして、進捗を確認してください。</p>
-    <p>No. {{ object.id }}　{{ object.title }}</p>
-    <p>{{ request.scheme }}://{{ request.get_host }}{{ request.path }}</p>
-</div>
-
-<!-- コメント表示 -->
-<div>
-    <p class="h6 mt-4">コメント</p>
-        <div>
-            <div class="navbar-brand" style="color: #094067;">
-                {% for comment in object.progresscomment_set.all %}
-                    <hr>    
-                    <p>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                        </svg>
-                        <b>&nbsp; {{ comment.user }} さん</b>　{{ comment.create_date }}　
-                        <!-- コメント投稿ユーザーがログインユーザーと一致する場合のみボタンを表示 -->
-                        {% if comment.user.id == user.id %}
-                            <!-- コメント編集ボタン -->
-                            <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal-{{ comment.id }}">編集</button>
-                            <!-- コメント削除ボタン -->
-                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ comment.id }}">削除</button>
-                        {% endif %}
-                    </p>
-                    <p>
-                        <nav class="p-3 m-3 navbar-expand-lg border-light-subtle bg-white text-wrap rounded">{{ comment.comment | linebreaksbr }}</nav>
-                    </p>
-                    <!-- コメント編集モーダル -->
-                    <div class="modal fade" id="editModal-{{ comment.id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="editModalLabel">コメント編集</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="{% url 'comment_update' comment.id %}" method="POST">
-                                        {% csrf_token %}
-                                        <div class="mb-3">
-                                            <label for="comment" class="form-label">コメント内容</label>
-                                            <textarea id="edit-comment-{{ comment.id }}" class="form-control" name="comment" rows="5">{{ comment.comment }}</textarea>
-                                        </div>
-                                            <p class="text-end"><small>入力日時：{{ comment.create_date }} <br>更新日時：{{ comment.update_date }}</small></p>
-                                            <p class="text-end"><small>※ 編集後は「保存」ボタンを押してください。</small></p>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-                                            <button type="submit" class="btn btn-primary">保存</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- コメント削除モーダル -->
-                    <div class="modal fade" id="deleteModal-{{ comment.id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h2 class="modal-title fs-5" id="deleteModalLabel">コメント削除</h2>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p>コメントNo.：{{ comment.id }}</p>
-                                    <textarea disabled id="edit-comment-{{ comment.id }}" class="form-control" name="comment" rows="5">{{ comment.comment }}</textarea>
-                                    <p>このコメントを削除します。よろしいですか？</p>
-                                    <p style="color: #d93c5a;">※ 削除したコメントは復元できません。</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
-                                    <form action="{% url 'comment_delete' comment.id %}" method="POST">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-danger">削除</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% empty %}
-                    <p class="text-muted">コメントはまだありません。</p>
-                {% endfor %}
+            <!-- ボタン -->
+            <div class="mt-4 d-grid gap-2 d-md-flex justify-content-md-end">
+                <small>更新日：&nbsp; <strong>{{ object.create_date }}　</strong></small>
+                <a class="btn btn-primary" role="button" id="btn" data-bs-toggle="tooltip" data-bs-title="リンクをコピーして共有">共有</a>
+                <a class="btn btn-secondary" href="{% url 'update' object.id %}" role="button" data-bs-toggle="tooltip" data-bs-title="課題の内容を編集">編集</a>
+                <a class="btn btn-danger" href="{% url 'delete' object.id %}" role="button" data-bs-toggle="tooltip" data-bs-title="この課題を削除">削除</a>
             </div>
-        </div>
-</div>
+    </div>
 
-<!-- コメント作成 -->
-<div>
-    <nav class="fixed-bottom border" style="border-top-color: #094067; background-color:#fffffe;">
-        <p class="mb-0 d-grid gap-2">
-            <a class="btn" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
-                    <path d="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
-                </svg>
-                <b>クリックして進捗をコメント</b>
-            </a>
-        </p>
-        <div class="collapse" id="collapseExample">
-            <!-- コメント作成用のURLを渡す -->
-            <form action="{% url 'comment_create' object.id %}" method="POST" class="p-3">
-                {% csrf_token %}
-                <div>
-                    <textarea id="comment" class="form-control" name="comment" rows="5" required></textarea>
-                    <p class="m-0"><small>※ 入力した日時とログインユーザーが自動入力されます。</small></p>
-                </div>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button type="submit" class="btn btn-primary mt-0">コメントを送信</button>
-                </div>
-            </form>
+    <!-- 添付ファイル  -->
+    <br>
+    <div class="card" style="background-color: white;">
+        <div class="card-header">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-folder2" viewBox="0 0 16 16">
+                <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v7a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 12.5zM2.5 3a.5.5 0 0 0-.5.5V6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3zM14 7H2v5.5a.5.5 0 0 0 .5.5h11a.5.5 0 0 0 .5-.5z"/>
+            </svg>
+            添付ファイル　
+            <button type="button" class="btn-round" data-bs-toggle="tooltip" data-bs-title="ファイルをアップロードできます"
+                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+                <a href="{% url 'upload' object.id %}" >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-upload-fill" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 0a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 4.095 0 5.555 0 7.318 0 9.366 1.708 11 3.781 11H7.5V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11h4.188C14.502 11 16 9.57 16 7.773c0-1.636-1.242-2.969-2.834-3.194C12.923 1.999 10.69 0 8 0m-.5 14.5V11h1v3.5a.5.5 0 0 1-1 0"/>
+                    </svg>
+                    ファイルをアップロード
+                </a>
+            </button>
         </div>
-    </nav>
-</div>
+        <ul class="list-group list-group-flush">
+            {% for file in object.uploaded_files.all %}
+                <li class="list-group-item">
+                    <a href="{{ file.file.url }}">{{ file.filename }}</a>　<small>{{ file.uploaded_at }}</small>
+                    <p class="text-end blockquote-footer mb-0">ファイルサイズ：{{ file.file_size }} KB </p>
+                </li>
+            {% empty %}
+                <li class="list-group-item text-muted">
+                    アップロードされたファイルはありません。
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- メッセージを表示（トースト） -->
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true">
+                    <div class="toast-header">
+                        <strong class="me-auto">通知</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        {{ message }}
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %} 
+    </div>    
+
+    <!-- クリップボードJSでコピーする内容 -->
+    <div id="txt" style="display:none;">
+        <p>アプリにログインして、進捗を確認してください。</p>
+        <p>No. {{ object.id }}　{{ object.title }}</p>
+        <p>{{ request.scheme }}://{{ request.get_host }}{{ request.path }}</p>
+    </div>
+
+    <!-- コメント表示 -->
+    <div>
+        <p class="h6 mt-4">コメント</p>
+            <div>
+                <div class="navbar-brand" style="color: #094067;">
+                    {% for comment in object.progresscomment_set.all %}
+                        <hr>    
+                        <p>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                            </svg>
+                            <b>&nbsp; {{ comment.user }} さん</b>　{{ comment.create_date }}　
+                            <!-- コメント投稿ユーザーがログインユーザーと一致する場合のみボタンを表示 -->
+                            {% if comment.user.id == user.id %}
+                                <!-- コメント編集ボタン -->
+                                <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal-{{ comment.id }}">編集</button>
+                                <!-- コメント削除ボタン -->
+                                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ comment.id }}">削除</button>
+                            {% endif %}
+                        </p>
+                        <p>
+                            <nav class="p-3 m-3 navbar-expand-lg border-light-subtle bg-white text-wrap rounded">{{ comment.comment | linebreaksbr }}</nav>
+                        </p>
+                        <!-- コメント編集モーダル -->
+                        <div class="modal fade" id="editModal-{{ comment.id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="editModalLabel">コメント編集</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{% url 'comment_update' comment.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <div class="mb-3">
+                                                <label for="comment" class="form-label">コメント内容</label>
+                                                <textarea id="edit-comment-{{ comment.id }}" class="form-control" name="comment" rows="5">{{ comment.comment }}</textarea>
+                                            </div>
+                                                <p class="text-end"><small>入力日時：{{ comment.create_date }} <br>更新日時：{{ comment.update_date }}</small></p>
+                                                <p class="text-end"><small>※ 編集後は「保存」ボタンを押してください。</small></p>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+                                                <button type="submit" class="btn btn-primary">保存</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- コメント削除モーダル -->
+                        <div class="modal fade" id="deleteModal-{{ comment.id }}" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h2 class="modal-title fs-5" id="deleteModalLabel">コメント削除</h2>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>コメントNo.：{{ comment.id }}</p>
+                                        <textarea disabled id="edit-comment-{{ comment.id }}" class="form-control" name="comment" rows="5">{{ comment.comment }}</textarea>
+                                        <p>このコメントを削除します。よろしいですか？</p>
+                                        <p style="color: #d93c5a;">※ 削除したコメントは復元できません。</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+                                        <form action="{% url 'comment_delete' comment.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger">削除</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p class="text-muted">コメントはまだありません。</p>
+                    {% endfor %}
+                </div>
+            </div>
+    </div>
+
+    <!-- コメント作成 -->
+    <div>
+        <nav class="fixed-bottom border" style="border-top-color: #094067; background-color:#fffffe;">
+            <p class="mb-0 d-grid gap-2">
+                <a class="btn" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-chat-dots-fill" viewBox="0 0 16 16">
+                        <path d="M16 8c0 3.866-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.584.296-1.925.864-4.181 1.234-.2.032-.352-.176-.273-.362.354-.836.674-1.95.77-2.966C.744 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7M5 8a1 1 0 1 0-2 0 1 1 0 0 0 2 0m4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/>
+                    </svg>
+                    <b>クリックして進捗をコメント</b>
+                </a>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <!-- コメント作成用のURLを渡す -->
+                <form action="{% url 'comment_create' object.id %}" method="POST" class="p-3">
+                    {% csrf_token %}
+                    <div>
+                        <textarea id="comment" class="form-control" name="comment" rows="5" required></textarea>
+                        <p class="m-0"><small>※ 入力した日時とログインユーザーが自動入力されます。</small></p>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-primary mt-0">コメントを送信</button>
+                    </div>
+                </form>
+            </div>
+        </nav>
+    </div>
 {% endblock %}
 
 <!-- このページのみフッター下側にマージンを設ける -->
@@ -210,6 +213,7 @@
         </a>
     </footer>
 {% endblock %}
+
 {% block script %}
     <script src="{% static "javascript/clipboard.js" %}"></script>
     <script src="{% static "javascript/toast.js" %}"></script>
