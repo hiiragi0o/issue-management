@@ -49,6 +49,9 @@ INSTALLED_APPS = [
 
     # アプリを追加
     'issue',
+
+    # データのインポート・エクスポート
+    'import_export',
 ]
 
 MIDDLEWARE = [
