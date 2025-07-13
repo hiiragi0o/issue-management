@@ -3,10 +3,6 @@ from import_export.admin import ImportExportModelAdmin # ImportExportModelAdmin�
 from .models import Issues, ProgressComment, UploadFile
 
 
-# admin.site.register(Issues)
-# admin.site.register(ProgressComment)
-# admin.site.register(UploadFile) # 添付ファイル
-
 # Issuesモデルにエクスポート機能を追加
 @admin.register(Issues) # admin.site.register(Issues) の代わりにデコレータを使用
 class IssuesAdmin(ImportExportModelAdmin):
